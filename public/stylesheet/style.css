@@ -1,0 +1,15 @@
+@font-face {
+	font-family: 'Light Novel POP V2';
+	src: url("/assets/LightNovelPOPv2.otf") format("opentype");
+}
+body, input, textarea, button {
+	font-family: 'Light Novel POP V2', sans-serif;
+}
+body {
+	background: #fffdeb;
+	margin: 0px;
+}
+
+.hidden {
+	display: none;
+}

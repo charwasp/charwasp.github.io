@@ -1,0 +1,45 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    base64 (0.2.0)
+    bigdecimal (3.1.9)
+    liquid (5.8.6)
+      bigdecimal
+      strscan (>= 3.1.1)
+    logger (1.7.0)
+    minify_html (0.15.0-aarch64-linux)
+    minify_html (0.15.0-arm64-darwin)
+    minify_html (0.15.0-x86_64-darwin)
+    minify_html (0.15.0-x86_64-linux)
+    rake (13.2.1)
+    rubyzip (2.4.1)
+    sqlite3 (2.6.0-aarch64-linux-gnu)
+    sqlite3 (2.6.0-aarch64-linux-musl)
+    sqlite3 (2.6.0-arm64-darwin)
+    sqlite3 (2.6.0-x86_64-darwin)
+    sqlite3 (2.6.0-x86_64-linux-gnu)
+    sqlite3 (2.6.0-x86_64-linux-musl)
+    strscan (3.1.5)
+    webrick (1.9.1)
+
+PLATFORMS
+  aarch64-linux
+  aarch64-linux-gnu
+  aarch64-linux-musl
+  arm64-darwin
+  x86_64-darwin
+  x86_64-linux-gnu
+  x86_64-linux-musl
+
+DEPENDENCIES
+  base64
+  liquid
+  logger
+  minify_html (= 0.15.0)
+  rake
+  rubyzip
+  sqlite3
+  webrick
+
+BUNDLED WITH
+   2.6.8

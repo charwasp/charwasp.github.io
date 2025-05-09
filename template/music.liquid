@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>Music</title>
+
+		<link rel="stylesheet" href="/stylesheet/style.css">
+
+		<style>
+			.music-table {
+				th, td {
+					padding: 5px;
+				}
+				th {
+					color: #897248;
+				}
+				tr {
+					border-bottom: 1px solid black;
+				}
+				border-collapse: collapse;
+				table-layout: fixed;
+				thead {
+					top: 0px;
+					position: sticky;
+					background: linear-gradient(to top, #fcd499, #fff4c3);
+					tr {
+						border-bottom: 2px solid black;
+					}
+				}
+
+				width: 100%;
+				min-width: 800px;
+				.col-id {
+					width: 7%;
+				}
+				.col-name {
+					max-width: 20%;
+				}
+				.col-artist {
+					max-width: 20%;
+				}
+				.col-download {
+					width: 10%;
+				}
+				.col-charts {
+					min-width: 40%;
+				}
+
+				.name, .artist {
+					color: #e96e00;
+				}
+				.name.chaos, .artist.chaos {
+					color: #4b4b9d;
+				}
+				.name.boost, .artist.boost {
+					color: #0026e9;
+				}
+
+				.chart {
+					display: inline-block;
+					text-align: center;
+					.difficulty {
+						font-size: 10px;
+						text-transform: uppercase;
+					}
+				}
+
+				.chart.easy {
+					.level {
+						color: #260eff;
+					}
+					.difficulty {
+						color: #006ee9;
+					}
+				}
+
+				.chart.normal {
+					.level {
+						color: #ff720e;
+					}
+					.difficulty {
+						color: #e96e00;
+					}
+				}
+
+				.chart.hard {
+					.level {
+						color: #ff0e2a;
+					}
+					.difficulty {
+						color: #e9005d;
+					}
+				}
+
+				.chart.extra {
+					.level {
+						color: #920eff;
+					}
+					.difficulty {
+						color: #ad1dba;
+					}
+				}
+
+				.chart.extra-plus {
+					.level {
+						color: #920eff;
+					}
+					.difficulty {
+						background: linear-gradient(to top, #547eaf, #804eb4);
+						-webkit-background-clip: text;
+						background-clip: text;
+						-webkit-text-fill-color: transparent;
+					}
+				}
+
+				.chart.chaos {
+					.level {
+						color: #5659b7;
+					}
+					.difficulty {
+						color: #1f2022;
+					}
+				}
+
+				.chart.chaos-plus {
+					.level {
+						color: #5659b7;
+					}
+					.difficulty {
+						background: linear-gradient(to top, #162138, #082358);
+						-webkit-background-clip: text;
+						background-clip: text;
+						-webkit-text-fill-color: transparent;
+					}
+				}
+			}
+
+			.filter-wrapper {
+				position: fixed;
+				right: 0px;
+				bottom: 0px;
+				margin: 10px;
+				width: min(500px, 100% - 20px); /* 20px is twice margin */
+
+				.filter {
+					width: auto;
+					height: fit-content;
+					overflow: auto;
+					border-radius: 5px;
+					border: 5px solid #eac250;
+					background: #ffffffcc;
+					padding: 10px;
+					margin-bottom: 10px;
+				}
+				.filter-section-title {
+					font-size: 20px;
+					color: #583318;
+					padding-bottom: 3px;
+					margin-bottom: 8px;
+					margin-top: 5px;
+					border-bottom: 1px solid #7a5835;
+					text-transform: uppercase;
+				}
+				.filter-checkbox {
+					display: none;
+				}
+				.filter-label, .filter-input {
+					font-size: 18px;
+					padding: 0px 8px;
+					margin: 5px 8px;
+					display: inline-block;
+					border-radius: 3px;
+					border-top: 1px solid #b19e8d;
+					border-left: 1px solid #977951;
+					border-right: 1px solid #987a51;
+					border-bottom: 1px solid #856841;
+					&:hover {
+						filter: brightness(1.1);
+					}
+				}
+				.filter-input {
+					width: min(100% - 36px, 500px);
+					background: #715d4c;
+					color: white;
+					display: inline-block;
+					&:focus {
+						outline: none;
+					}
+					&::placeholder {
+						color: #888888;
+					}
+				}
+				.filter-label {
+					user-select: none;
+					background: #937b67;
+					color: #c6b696;
+					.filter-checkbox:checked + & {
+						background: white;
+						color: #897248;
+					}
+					&:active {
+						filter: brightness(0.9);
+					}
+				}
+
+				.filter-button-wrapper {
+					width: fit-content;
+					height: fit-content;
+					margin-left: auto;
+					border-radius: 5px;
+					border-top: 1px solid #b19e8d;
+					border-left: 1px solid #977951;
+					border-right: 1px solid #987a51;
+					border-bottom: 1px solid #856841;
+					background: linear-gradient(to top, #bfebff, #fafdff);
+					&:has(.filter-button:hover) {
+						filter: brightness(1.1);
+					}
+					&:has(.filter-button:active) {
+						filter: brightness(0.9);
+					}
+				}
+				.filter-button {
+					width: 100px;
+					height: 40px;
+					font-size: 20px;
+					border-radius: 3px;
+					border-top: 1px solid #7c6547;
+					border-left: 1px solid #917858;
+					border-right: 1px solid #8f7958;
+					border-bottom: 1px solid #9a8d7e;
+					margin: 1px;
+					background: linear-gradient(to top, #3a84ca, #003070);
+					-webkit-background-clip: text;
+					background-clip: text;
+					-webkit-text-fill-color: transparent;
+				}
+			}
+		</style>
+
+		<script>
+			(() => {
+				function escape(s) {
+					s = s.replace(/&/g, '&amp;').replace(/'/g, '&apos;').replace(/"/g, '&quot;')
+					s = s.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+					s = s.replace(/\r\n/g, '&#13;').replace(/[\r\n]/g, '&#13;');
+					return s;
+				}
+
+				const keywordFilter = {keyword: ''};
+				const categoryFilter = {
+					secret: false,
+					chaos: false,
+					inst: false,
+					vocal: false,
+					boost: false,
+				};
+				const levelFilter = {
+					1: false,
+					2: false,
+					3: false,
+					4: false,
+					5: false,
+					6: false,
+					7: false,
+					8: false,
+					9: false,
+					10: false,
+					11: false,
+					12: false,
+					13: false,
+				};
+
+				const filterStyle = document.createElement('style');
+				document.head.appendChild(filterStyle);
+				const filterSheet = filterStyle.sheet;
+				let hasFilter = false;
+
+				function reapplyFilter() {
+					let keywordSelector = '';
+					if (keywordFilter.keyword) {
+						keyword = escape(keywordFilter.keyword);
+						for (const keywordIndex of [1, 2, 3, 4]) {
+							const attribute = `data-keyword-${keywordIndex}`;
+							keywordSelector += `:not([${attribute}][${attribute}*="${keyword}" i])`;
+						}
+					}
+
+					let categorySelector = '';
+					for (const category in categoryFilter) {
+						if (categoryFilter[category]) {
+							categorySelector += `:not([data-${category}="1"])`;
+						}
+					}
+
+					let levelSelector = '';
+					for (const level in levelFilter) {
+						if (levelFilter[level]) {
+							levelSelector += `:not([data-levels~="${level}"])`;
+						}
+					}
+
+					const selectors = [keywordSelector, categorySelector, levelSelector].filter(Boolean);
+					const selector = selectors.map(s => '.music-table > tbody > tr' + s).join(', ');
+					if (hasFilter) {
+						filterSheet.deleteRule(0);
+						hasFilter = false;
+					}
+					if (selector) {
+						filterSheet.insertRule(`${selector} { display: none; }`);
+						hasFilter = true;
+					}
+				}
+
+				window.addEventListener('DOMContentLoaded', () => {
+					document.getElementById('filter-keyword').addEventListener('input', event => {
+						keywordFilter.keyword = event.target.value;
+						reapplyFilter();
+					});
+					for (const category in categoryFilter) {
+						document.getElementById(`filter-${category}`).addEventListener('change', event => {
+							categoryFilter[category] = event.target.checked;
+							reapplyFilter();
+						});
+					}
+					for (const level in levelFilter) {
+						document.getElementById(`filter-level-${level}`).addEventListener('change', event => {
+							levelFilter[level] = event.target.checked;
+							reapplyFilter();
+						});
+					}
+
+					const filterClasses = document.getElementById('filter').classList;
+					document.getElementById('filter-button').addEventListener('click', () => {
+						if (filterClasses.contains('hidden')) {
+							filterClasses.remove('hidden');
+						} else {
+							filterClasses.add('hidden');
+						}
+					});
+				});
+			})();
+		</script>
+	</head>
+
+	<body>
+		<table class="music-table">
+			<colgroup>
+				<col class="col-id">
+				<col class="col-name">
+				<col class="col-artist">
+				<col class="col-download">
+				<col class="col-charts">
+			</colgroup>
+
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Artist</th>
+					<th>Download</th>
+					<th>Charts</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for music in music_list %}
+					{% capture data_attributes %}
+						{% for keyword in music.keywords %}
+							data-keyword-{{ forloop.index }}="{{ keyword | escape }}"
+						{% endfor %}
+						data-levels="{{ music.charts | map: "level" | join: " " }}"
+						{% if music.chaos %}data-chaos="1"{% endif %}
+						{% if music.boost %}data-boost="1"{% endif %}
+						{% if music.inst %}data-inst="1"{% endif %}
+						{% if music.vocal %}data-vocal="1"{% endif %}
+						{% if music.secret %}data-secret="1"{% endif %}
+					{% endcapture %}
+					{% capture music_class %}{% if music.chaos %} chaos{% endif %}{% if music.boost %} boost{% endif %}{% endcapture %}
+					<tr {{ data_attributes }}>
+						<th>{{ music.id }}</th>
+						<td><span class="name{{ music_class }}">{{ music.name }}</span></td>
+						<td><span class="artist{{ music_class }}">{{ music.artist }}</span></td>
+						<td>
+							<a href="{{ music.preview }}" target="_blank">preview</a>
+							<a href="{{ music.bgm }}" target="_blank">bgm</a>
+						</td>
+						<td>
+							{% for chart in music.charts %}
+								<div class="chart {{ chart.difficulty | replace: "_", "-" }}">
+									<div class="level">{{ chart.level }}</div>
+									<div class="difficulty">{{ chart.difficulty | replace: "_plus", "+" }}</div>
+								</div>
+							{% endfor %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<div class="filter-wrapper">
+			<div class="filter hidden" id="filter">
+				<div class="filter-section">
+					<div class="filter-section-title">Keyword</div>
+					<input type="text" id="filter-keyword" class="filter-input" placeholder="Keyword:">
+				</div>
+
+				<div class="filter-section">
+					<div class="filter-section-title">Category</div>
+					<input type="checkbox" id="filter-secret" class="filter-checkbox">
+					<label for="filter-secret" class="filter-label">Secret</label>
+					<input type="checkbox" id="filter-chaos" class="filter-checkbox">
+					<label for="filter-chaos" class="filter-label">Chaos</label>
+					<input type="checkbox" id="filter-inst" class="filter-checkbox">
+					<label for="filter-inst" class="filter-label">Inst</label>
+					<input type="checkbox" id="filter-vocal" class="filter-checkbox">
+					<label for="filter-vocal" class="filter-label">Vocal</label>
+					<input type="checkbox" id="filter-boost" class="filter-checkbox">
+					<label for="filter-boost" class="filter-label">Boost</label>
+				</div>
+
+				<div class="filter-section">
+					<div class="filter-section-title">Level</div>
+					{% for level in (1..13) %}
+						<input type="checkbox" id="filter-level-{{ level }}" class="filter-checkbox">
+						<label for="filter-level-{{ level }}" class="filter-label">{{ level }}</label>
+					{% endfor %}
+				</div>
+			</div>
+
+			<div class="filter-button-wrapper">
+				<button id="filter-button" class="filter-button">Filter</button>
+			</div>
+		</div>
+	</body>
+</html>
