@@ -3,6 +3,7 @@ let playButton;
 let progressBar;
 let url;
 let status;
+let arrayBuffer;
 let audioBuffer;
 let source;
 let startTime;
@@ -13,6 +14,7 @@ let progressText;
 let progress = 0;
 let activeStop = false; // to prevent stop() from triggering 'ended' event
 let cheatCount = 0;
+let doCheatAfterLoading = false;
 
 function cors(url) {
 	return `https://corsproxy.io/?url=${url}`;
@@ -42,6 +44,21 @@ async function fetchWithProgress(url, onProgress) {
 	return buffer.buffer;
 }
 
+async function load() {
+	status = 'loading';
+	arrayBuffer = await fetchWithProgress(cors(url), (receivedLength, size) => {
+		const progress = receivedLength / size;
+		playButton.style.setProperty('--download', `${progress*360}deg`);
+	});
+	if (doCheatAfterLoading) {
+		doCheatAfterLoading = false;
+		doCheat();
+	}
+	audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+	duration = audioBuffer.duration;
+	status = 'stopped';
+}
+
 async function playOrStop() {
 	if (status === 'playing') {
 		status = 'stopped';
@@ -53,15 +70,8 @@ async function playOrStop() {
 	if (status === 'loading') {
 		return;
 	}
-
 	if (!audioBuffer) {
-		status = 'loading';
-		const arrayBuffer = await fetchWithProgress(cors(url), (receivedLength, size) => {
-			const progress = receivedLength / size;
-			playButton.style.setProperty('--download', `${progress*360}deg`);
-		});
-		audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-		duration = audioBuffer.duration;
+		await load();
 	}
 
 	status = 'playing';
@@ -164,13 +174,27 @@ function cheat(mod) {
 		return;
 	}
 	cheatCount = 0;
+	if (arrayBuffer) {
+		doCheat();
+	} else {
+		doCheatAfterLoading = true;
+		if (status !== 'loading') {
+			load();
+		}
+	}
+}
+
+function doCheat() {
 	const a = document.createElement('a');
 	a.style.display = 'none';
-	a.href = url;
-	a.target = '_blank';
+	a.href = URL.createObjectURL(new Blob([arrayBuffer]));
+	a.download = 'bgm.ogg';
 	document.body.appendChild(a);
 	a.click();
-	setTimeout(() => a.remove(), 0);
+	setTimeout(() => {
+		URL.revokeObjectURL(a.href);
+		a.remove()
+	}, 0);
 }
 
 window.addEventListener('DOMContentLoaded', () => {

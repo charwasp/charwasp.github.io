@@ -3,6 +3,7 @@ class CharWasP::Generator
 
 	def generate
 		generate_public
+		generate_signature
 		generate_music
 		generate_news
 		generate_music_details
@@ -12,6 +13,10 @@ class CharWasP::Generator
 		info 'Generating hardcoded pages'
 		FileUtils.rm_r 'dist' if Dir.exist? 'dist'
 		FileUtils.cp_r 'public', 'dist'
+	end
+
+	def generate_signature
+		File.write 'dist/master.zip.sig', CharWasP.assets['master.zip'][:md5]
 	end
 
 	def generate_music

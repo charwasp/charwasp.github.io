@@ -39,6 +39,7 @@ class CharWasP::Database
 			zip_file.each do |entry|
 				next unless entry.name == @unzip_file
 				info "Unzipping #@unzip_file to #@unzip_path"
+				FileUtils.rm @unzip_path if File.exist? @unzip_path
 				entry.extract @unzip_path
 			end
 		end

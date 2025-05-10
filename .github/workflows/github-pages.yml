@@ -5,10 +5,34 @@ on:
   push:
     branches: [master]
   schedule:
-    - cron: '35 */12 * * *' # every 12 hours
+    - cron: '2 * * * *' # every hour
 
 jobs:
+  check-updates:
+    runs-on: ubuntu-latest
+    outputs:
+      has-update: ${{ steps.check.outputs.has-update }}
+    steps:
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Check for updates
+        id: check
+        shell: bash
+        run: |
+          set -e
+          deployed="$(curl -fsS ${{ steps.pages.outputs.base_url }}/master.zip.sig || true)"
+          upstream=$(curl -fsS ${{ secrets.CHARWASP_MANIFEST_URL }} | jq -r '.assets["master.zip"].md5')
+          if [[ -z "$deployed" || "$upstream" != "$deployed" ]]; then
+            echo '::set-output name=has-update::true'
+          else
+            echo '::set-output name=has-update::false'
+          fi
+
   build:
+    needs: check-updates
+    if: needs.check-updates.outputs.has-update == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
