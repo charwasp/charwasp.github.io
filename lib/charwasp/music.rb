@@ -2,7 +2,10 @@ class CharWasP::Music < Liquid::Drop
 	DIFFICULTIES = %i[easy normal hard extra extra_plus]
 	CHAOS_DIFFICULTIES = %i[chaos chaos_plus]
 
-	FIELDS = %i[id name artist bgm preview keywords chaos boost charts inst vocal secret]
+	FIELDS = %i[
+		id name artist bgm preview keywords chaos boost charts inst vocal
+		secret chaos_version non_chaos_version
+	]
 	attr_accessor *FIELDS
 
 	def initialize row
@@ -24,6 +27,11 @@ class CharWasP::Music < Liquid::Drop
 		@vocal = categories & 8 > 0
 		@boost = row[:pickup] != 0
 		@secret = CharWasP.db.secrets.include? @id
+		if CharWasP.db.has_chaos[@id]
+			@chaos_version = CharWasP.db.has_chaos[@id]
+		elsif CharWasP.db.has_non_chaos[@id]
+			@non_chaos_version = CharWasP.db.has_non_chaos[@id]
+		end
 	end
 
 	def before_method meth

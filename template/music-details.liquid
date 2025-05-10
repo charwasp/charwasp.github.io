@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>{{ music.name | escape }}</title>
+
+		<link rel="stylesheet" href="/stylesheet/style.css">
+		<link rel="stylesheet" href="/stylesheet/music-details.css">
+		<script src="/js/music-details.js" type="module"></script>
+	</head>
+
+	<body>
+		<h1 id="title"{% if music.chaos %} class="chaos"{% endif %}>{{ music.name | escape }}</h1>
+
+		{% if music.chaos_version %}
+			<div class="alt-version chaos">
+				<a href="/info/music/{{ music.chaos_version }}.html">CHAOS version</a>
+			</div>
+		{% elsif music.non_chaos_version %}
+			<div class="alt-version">
+				<a href="/info/music/{{ music.non_chaos_version }}.html">Non-CHAOS version</a>
+			</div>
+		{% endif %}
+
+		<dl class="music-info">
+			<dt>ID</dt>
+			<dd id="id">{{ music.id }}</dd>
+
+			<dt>Name</dt>
+			<dd {% if music.chaos %}class="chaos"{% endif %} id="name">{{ music.name | escape }}</dd>
+
+			<dt>Artist</dt>
+			<dd {% if music.chaos %}class="chaos"{% endif %} id="artist">{{ music.artist | escape }}</dd>
+		</dl>
+
+		<table id="charts-table">
+			{% for chart in music.charts %}
+			<tr>
+				<td class="chart-cell">
+					<div class="chart {{ chart.difficulty | replace: "_", "-" }}">
+						<div class="level">{{ chart.level }}</div>
+						<div class="difficulty">{{ chart.difficulty | replace: "_plus", "+" }}</div>
+					</div>
+				</td>
+				<td class="chart-unlock-cell">
+				</td>
+			</tr>
+		{% endfor %}
+		</table>
+
+		<div data-url="{{ music.bgm }}" id="bgm">
+			<div id="progress-bar" style="--progress: 0%;"></div>
+			<div class="bgm-controls">
+				<div id="play-button" style="--download: 0deg;"></div>
+				<div id="progress-text">0:00.000 / 0:00.000</div>
+				<input type="checkbox" id="loop-checkbox" class="input-checkbox">
+				<label for="loop-checkbox">Loop</label>
+				<input type="range" id="volume-range" class="input-range" min="0" max="1" value="1" step="0.01">
+			</div>
+		</div>
+	</body>
+</html>

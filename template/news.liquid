@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>News</title>
+
+		<link rel="stylesheet" href="/stylesheet/style.css">
+		{% for stylesheet in stylesheets %}
+			<style>
+				{{ stylesheet }}
+			</style>
+		{% endfor %}
+		{% for script in scripts %}
+			<script>
+				(() => { {{ script }} })();
+			</script>
+		{% endfor %}
+	</head>
+
+	<body>
+		{% for news in news_list %}
+			<div class="news">
+				<div class="news-header">
+					<h2 class="news-title">{{ news.title | escape }}</h2>
+					<time class="news-date" datetime="{{ news.datetime }}">{{ news.date }}</time>
+				</div>
+				{% for item in news.items %}
+					<ul class="news-list">
+						{% for item_item in item %}
+							<li class="news-item">
+								{% if item_item.id %}
+									<a href="/info/music/{{ item_item.id }}.html" class="music{% if item_item.chaos %} chaos{% endif %}">
+										{{ item_item.name | escape }}</a>
+									{% if item_item.chaos %}CHAOS{% endif %}
+								{% else %}
+									<span class="plain">{{ item_item | escape }}</span>
+								{% endif %}
+							</li>
+						{% endfor %}
+					</ul>
+				{% endfor %}
+			</div>
+		{% endfor %}
+	</body>
+</html>

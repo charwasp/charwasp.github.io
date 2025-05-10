@@ -1,13 +1,14 @@
 class CharWasP::Database
 	include CharWasP::Logger
 
-	attr_reader :secrets
+	attr_reader :secrets, :has_chaos, :has_non_chaos
 
 	def initialize
 		init_params
 		download_and_unzip_if_needed
 		init_db
 		init_secrets
+		init_has_chaos
 	end
 
 	def init_params
@@ -64,7 +65,6 @@ class CharWasP::Database
 	end
 
 	def init_secrets
-		info 'Loading secrets'
 		@secrets = Set[]
 		@db.execute 'SELECT music_id, param1 FROM unknown' do |row|
 			@secrets.add row['music_id']
@@ -87,22 +87,49 @@ class CharWasP::Database
 		end
 	end
 
-	def get_row table, id
-		row = @db.get_first_row "SELECT * FROM #{table} WHERE id = ?", id
-		row.transform_keys! &:to_sym
-		row
-	end
-
-	def music id
-		row = get_row 'music', id
-		CharWasP::Music.new row if row
+	def init_has_chaos
+		@has_chaos = {}
+		@has_non_chaos = {}
+		@db.execute <<~SQL do |row|
+			SELECT m1.id AS id1, m2.id AS id2 FROM music m1 JOIN music m2 ON m1.hash == m2.hash WHERE (
+				m1.id != m2.id AND m1.chaos == 0 AND m2.chaos == 1
+			)
+		SQL
+			@has_chaos[row['id1']] = row['id2']
+			@has_non_chaos[row['id2']] = row['id1']
+		end
 	end
 
 	def each_music
 		return enum_for :each_music unless block_given?
+		count = 0
 		@db.execute 'SELECT * FROM music' do |row|
+			# break if count >= 100
 			row.transform_keys! &:to_sym
 			yield CharWasP::Music.new row
+			count += 1
 		end
+	end
+
+	def each_news
+		return enum_for :each_news unless block_given?
+		@db.execute 'SELECT * FROM notification ORDER BY date DESC' do |row|
+			row.transform_keys! &:to_sym
+			yield CharWasP::News.new row
+		end
+	end
+
+	def find_music name
+		if name_without_chaos = name[/(.+) CHAOS/, 1]
+			name = name_without_chaos
+			chaos = 1
+		else
+			chaos = 0
+		end
+		@db.execute 'SELECT * FROM music WHERE name = ? AND chaos = ?', [name, chaos] do |row|
+			row.transform_keys! &:to_sym
+			return CharWasP::Music.new row
+		end
+		nil
 	end
 end

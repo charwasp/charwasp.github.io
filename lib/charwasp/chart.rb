@@ -12,4 +12,9 @@ class CharWasP::Chart < Liquid::Drop
 	def before_method meth
 		FIELDS.include?(meth) ? send(meth) : super
 	end
+
+	def unlock_condition
+		return "<span class=\"coin\">#@price</span>" if @price > 0
+		
+	end
 end
