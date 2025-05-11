@@ -17,6 +17,7 @@ require 'charwasp/database'
 require 'charwasp/music'
 require 'charwasp/chart'
 require 'charwasp/news'
+require 'charwasp/course'
 require 'charwasp/generator'
 
 class << CharWasP
@@ -35,6 +36,7 @@ class << CharWasP
 		@assets.transform_keys! &:to_s
 
 		@db = CharWasP::Database.new
+		@db.init
 
 		CharWasP::Generator.new.generate
 	end

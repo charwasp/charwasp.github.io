@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>{{ course.full_name | escape }}</title>
+
+		<link rel="stylesheet" href="/stylesheet/style.css">
+		<link rel="stylesheet" href="/stylesheet/course-details.css">
+	</head>
+
+	<body>
+		<h1 id="title">
+			{{- course.sub_name | escape }}
+			<span class="level-{{ course.level }}">{{ course.name | escape }}</span>
+		</h1>
+
+		<dl class="course-info">
+			<dt>ID</dt>
+			<dd id="id">{{ course.id }}</dd>
+
+			<dt>Version</dt>
+			<dd id="version">{{ course.sub_name | escape }}</dd>
+
+			<dt>Name</dt>
+			<dd id="name">{{ course.name | escape }}</dd>
+
+			<dt>Reward</dt>
+			<dd id="reward"><span class="coin">{{ course.reward }}</span></dd>
+
+			<dt>Gauge</dt>
+			<dd id="gauge">{{ course.gauge }}</dd>
+		</dl>
+
+		<table id="charts-table">
+			{% for chart in course.charts %}
+				<tr>
+					<td class="music-cell">
+						<a href="/info/music/{{ chart.music.id }}.html" class="music{% if chart.music.chaos %} chaos{% endif %}">
+							{{- chart.music.name | escape -}}
+						</a>
+					</td>
+					<td class="chart-cell">
+						<div class="chart {{ chart.difficulty | replace: "_", "-" }}">
+							<div class="level">{{ chart.level }}</div>
+							<div class="difficulty">{{ chart.difficulty | replace: "_plus", "+" }}</div>
+						</div>
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+	</body>
+</html>

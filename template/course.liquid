@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>Courses</title>
+
+		<link rel="stylesheet" href="/stylesheet/style.css">
+		{% for stylesheet in stylesheets %}
+			<style>
+				{{ stylesheet }}
+			</style>
+		{% endfor %}
+		{% for script in scripts %}
+			<script>
+				(() => { {{ script }} })();
+			</script>
+		{% endfor %}
+	</head>
+
+	<body>
+		<table id="course-table">
+			<colgroup>
+				<col class="col-version">
+				<col class="col-id">
+				<col class="col-name">
+				<col class="col-reward">
+			</colgroup>
+
+			<thead>
+				<tr>
+					<th>Version</th>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Reward</th>
+					<th>Gauge</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for version in course_versions %}
+					{% for course in version.courses %}
+						<tr>
+							{% if forloop.first %}
+								<td class="version" rowspan="{{ version.courses.size }}">
+									{{- version.name | escape -}}
+								</td>
+							{% endif %}
+							<th class="id">{{ course.id }}</th>
+							<td>
+								<a href="/info/course/{{ course.id }}.html" class="name level-{{ course.level }}">
+									{{- course.name | escape -}}
+								</a>
+							</td>
+							<td class="reward">
+								<span class="coin">{{ course.reward }}</span>
+							</td>
+							<td class="gauge">{{ course.gauge }}</td>
+						</tr>
+					{% endfor %}
+				{% endfor %}
+			</tbody>
+		</table>
+	</body>
+</html>

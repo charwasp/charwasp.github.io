@@ -25,9 +25,9 @@ jobs:
           deployed="$(curl -fsS ${{ steps.pages.outputs.base_url }}/master.zip.sig || true)"
           upstream=$(curl -fsS ${{ secrets.CHARWASP_MANIFEST_URL }} | jq -r '.assets["master.zip"].md5')
           if [[ -z "$deployed" || "$upstream" != "$deployed" ]]; then
-            echo '::set-output name=has-update::true'
+            echo 'has-update=true' >> $GITHUB_OUTPUT
           else
-            echo '::set-output name=has-update::false'
+            echo 'has-update=false' >> $GITHUB_OUTPUT
           fi
 
   build:

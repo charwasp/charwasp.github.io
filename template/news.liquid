@@ -30,13 +30,14 @@
 					<ul class="news-list">
 						{% for item_item in item %}
 							<li class="news-item">
-								{% if item_item.id %}
+								{%- if item_item.id -%}
 									<a href="/info/music/{{ item_item.id }}.html" class="music{% if item_item.chaos %} chaos{% endif %}">
-										{{ item_item.name | escape }}</a>
-									{% if item_item.chaos %}CHAOS{% endif %}
-								{% else %}
+										{{- item_item.name | escape -}}
+									</a>
+									{%- if item_item.chaos %} CHAOS{% endif -%}
+								{%- else -%}
 									<span class="plain">{{ item_item | escape }}</span>
-								{% endif %}
+								{%- endif -%}
 							</li>
 						{% endfor %}
 					</ul>

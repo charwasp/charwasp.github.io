@@ -2,13 +2,15 @@ class CharWasP::Database
 	include CharWasP::Logger
 
 	attr_reader :secrets, :has_chaos, :has_non_chaos
+	attr_reader :special_stages, :unlocks, :unknowns
 
-	def initialize
+	def init
 		init_params
 		download_and_unzip_if_needed
 		init_db
 		init_secrets
 		init_has_chaos
+		init_unlocks
 	end
 
 	def init_params
@@ -101,6 +103,32 @@ class CharWasP::Database
 		end
 	end
 
+	def init_unlocks
+		@unlocks = Hash.new { |h, k| h[k] = [] }
+		@db.execute 'SELECT * FROM unlock' do |row|
+			row.transform_keys! &:to_sym
+
+			music = case row[:music_range]
+			when 1 then find_music row[:music_param1]
+			when 2 then :any
+			when 4 then find_course row[:music_param1]
+			end
+			range_type = %i[_ difficulty level][row[:note_range]]
+			range = row[:note_param1]..row[:note_param2]
+			requirement_type = %i[_ play rank state][row[:status_type]]
+			requirement = case requirement_type
+			when :rank then %w[_ D C B A S S+][row[:status_param1]]
+			when :state then %w[_ Failed Clear HC FC AP][row[:status_param1]]
+			end
+			count = row[:count]
+
+			@unlocks[row[:note_id]].push({
+				music:, range_type:, range:,
+				requirement_type:, requirement:, count:
+			})
+		end
+	end
+
 	def each_music
 		return enum_for :each_music unless block_given?
 		count = 0
@@ -121,6 +149,14 @@ class CharWasP::Database
 	end
 
 	def find_music name
+		if name.is_a? Integer
+			@db.execute 'SELECT * FROM music WHERE id = ?', [name] do |row|
+				row.transform_keys! &:to_sym
+				return CharWasP::Music.new row
+			end
+			return
+		end
+
 		if name_without_chaos = name[/(.+) CHAOS/, 1]
 			name = name_without_chaos
 			chaos = 1
@@ -132,5 +168,29 @@ class CharWasP::Database
 			return CharWasP::Music.new row
 		end
 		nil
+	end
+
+	def each_course
+		return enum_for :each_course unless block_given?
+		@db.execute 'SELECT * FROM course' do |row|
+			row.transform_keys! &:to_sym
+			yield CharWasP::Course.new row
+		end
+	end
+
+	def find_course id
+		@db.execute 'SELECT * FROM course WHERE id = ?', [id] do |row|
+			row.transform_keys! &:to_sym
+			return CharWasP::Course.new row
+		end
+		nil
+	end
+
+	def find_chart id
+		@db.execute 'SELECT * FROM music WHERE ? IN (note_id_1, note_id_2, note_id_3, note_id_4, note_id_5)', [id] do |row|
+			row.transform_keys! &:to_sym
+			music = CharWasP::Music.new row
+			return music.charts.find { _1.id == id }
+		end
 	end
 end

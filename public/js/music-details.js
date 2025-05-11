@@ -1,4 +1,6 @@
 const audioContext = new AudioContext();
+const gainNode = audioContext.createGain();
+gainNode.connect(audioContext.destination);
 let playButton;
 let progressBar;
 let url;
@@ -15,6 +17,7 @@ let progress = 0;
 let activeStop = false; // to prevent stop() from triggering 'ended' event
 let cheatCount = 0;
 let doCheatAfterLoading = false;
+let volumeRange;
 
 function cors(url) {
 	return `https://corsproxy.io/?url=${url}`;
@@ -84,7 +87,7 @@ function play() {
 	playButton.classList.add('playing');
 	source = audioContext.createBufferSource();
 	source.buffer = audioBuffer;
-	source.connect(audioContext.destination);
+	source.connect(gainNode);
 	source.start(0, progress * duration);
 	source.loop = loopCheckbox.checked;
 	source.addEventListener('ended', () => {
@@ -202,6 +205,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	progressBar = document.getElementById('progress-bar');
 	loopCheckbox = document.getElementById('loop-checkbox');
 	progressText = document.getElementById('progress-text');
+	volumeRange = document.getElementById('volume-range');
 	url = document.getElementById('bgm').dataset.url;
 	status = 'stopped';
 
@@ -209,6 +213,9 @@ window.addEventListener('DOMContentLoaded', () => {
 		if (source) {
 			source.loop = loopCheckbox.checked;
 		}
+	});
+	volumeRange.addEventListener('input', () => {
+		gainNode.gain.value = volumeRange.value;
 	});
 	playButton.addEventListener('click', () => playOrStop());
 	progressBar.addEventListener('pointerdown', startSeeking);

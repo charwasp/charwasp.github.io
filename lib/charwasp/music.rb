@@ -19,7 +19,7 @@ class CharWasP::Music < Liquid::Drop
 			level = row[:"level_#{i+1}"]
 			id = row[:"note_id_#{i+1}"]
 			price = row[:"require_point_#{i+1}"]
-			level == 0 ? nil : CharWasP::Chart.new(id, difficulty, level, price)
+			level == 0 ? nil : CharWasP::Chart.new(self, id, difficulty, level, price)
 		end.compact
 		@keywords = row[:keyword].split(?\t).reject &:empty?
 		categories = row[:category]

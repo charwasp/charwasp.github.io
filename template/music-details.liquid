@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<title>{{ music.name | escape }}</title>
+		<title>{{ music.name | escape }}{% if music.chaos %} CHAOS{% endif %}</title>
 
 		<link rel="stylesheet" href="/stylesheet/style.css">
 		<link rel="stylesheet" href="/stylesheet/music-details.css">
@@ -33,21 +33,37 @@
 
 			<dt>Artist</dt>
 			<dd {% if music.chaos %}class="chaos"{% endif %} id="artist">{{ music.artist | escape }}</dd>
+
+			<dt>Categories</dt>
+			<dd id="categories">
+				{%- if music.secret -%}<span class="category secret">Secret</span>{%- endif -%}
+				{%- if music.chaos -%}<span class="category chaos">Chaos</span>{%- endif -%}
+				{%- if music.inst -%}<span class="category inst">Inst</span>{%- endif -%}
+				{%- if music.vocal -%}<span class="category vocal">Vocal</span>{%- endif -%}
+				{%- if music.boost -%}<span class="category boost">Boost</span>{%- endif -%}
+			</dd>
 		</dl>
 
 		<table id="charts-table">
 			{% for chart in music.charts %}
-			<tr>
-				<td class="chart-cell">
-					<div class="chart {{ chart.difficulty | replace: "_", "-" }}">
-						<div class="level">{{ chart.level }}</div>
-						<div class="difficulty">{{ chart.difficulty | replace: "_plus", "+" }}</div>
-					</div>
-				</td>
-				<td class="chart-unlock-cell">
-				</td>
-			</tr>
-		{% endfor %}
+				<tr>
+					<td class="chart-cell">
+						<div class="chart {{ chart.difficulty | replace: "_", "-" }}">
+							<div class="level">{{ chart.level }}</div>
+							<div class="difficulty">{{ chart.difficulty | replace: "_plus", "+" }}</div>
+						</div>
+					</td>
+					<td class="chart-unlock-cell">
+						<ul>
+							{% for condition in chart.unlock_conditions %}
+								<li class="chart-unlock-condition">
+									{{ condition }}
+								</li>
+							{% endfor %}
+						</ul>
+					</td>
+				</tr>
+			{% endfor %}
 		</table>
 
 		<div data-url="{{ music.bgm }}" id="bgm">

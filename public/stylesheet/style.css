@@ -12,3 +12,13 @@ body {
 .hidden {
 	display: none;
 }
+
+.coin {
+	color: #eccd02;
+	&::before {
+		content: url("/assets/coin.svg");
+		margin-right: 5px;
+		display: inline-block;
+		vertical-align: middle;
+	}
+}

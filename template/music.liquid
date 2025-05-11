@@ -42,6 +42,8 @@
 			<tbody>
 				{% for music in music_list %}
 					{% capture data_attributes %}
+						data-name="{{ music.name | escape }}"
+						data-artist="{{ music.artist | escape }}"
 						{% for keyword in music.keywords %}
 							data-keyword-{{ forloop.index }}="{{ keyword | escape }}"
 						{% endfor %}
@@ -52,7 +54,10 @@
 						{% if music.vocal %}data-vocal="1"{% endif %}
 						{% if music.secret %}data-secret="1"{% endif %}
 					{% endcapture %}
-					{% capture music_class %}{% if music.chaos %} chaos{% endif %}{% if music.boost %} boost{% endif %}{% endcapture %}
+					{% capture music_class %}
+						{% if music.chaos %}chaos{% endif %}
+						{% if music.boost %}boost{% endif %}
+					{% endcapture %}
 					<tr {{ data_attributes }}>
 						<th>{{ music.id }}</th>
 						<td>
@@ -76,6 +81,7 @@
 
 		<div class="filter-wrapper">
 			<div class="filter hidden" id="filter">
+				<button id="filter-reset" class="filter-reset">Reset</button>
 				<div class="filter-section">
 					<div class="filter-section-title">Keyword</div>
 					<input type="text" id="filter-keyword" class="filter-input" placeholder="Keyword:">

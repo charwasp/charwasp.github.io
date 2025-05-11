@@ -7,6 +7,8 @@ class CharWasP::Generator
 		generate_music
 		generate_news
 		generate_music_details
+		generate_course
+		generate_course_details
 	end
 
 	def generate_public
@@ -36,6 +38,23 @@ class CharWasP::Generator
 		CharWasP.db.each_music do |music|
 			rendered = template 'music-details.liquid', src_dir: 'music-details', music: music
 			write_html "info/music/#{music.id}.html", rendered
+		end
+	end
+
+	def generate_course
+		info 'Generating course list'
+		course_versions = CharWasP.db.each_course.group_by(&:sub_name).map do |name, courses|
+			CharWasP::Course::Version.new name, courses
+		end
+		rendered = template 'course.liquid', src_dir: 'course', course_versions: course_versions
+		write_html 'info/course.html', rendered
+	end
+
+	def generate_course_details
+		info 'Generating course details'
+		CharWasP.db.each_course do |course|
+			rendered = template 'course-details.liquid', course: course
+			write_html "info/course/#{course.id}.html", rendered
 		end
 	end
 

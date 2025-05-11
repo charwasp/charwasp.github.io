@@ -1,3 +1,5 @@
+let filterButton;
+
 function escape(s) {
 	s = s.replace(/&/g, '&amp;').replace(/'/g, '&apos;').replace(/"/g, '&quot;')
 	s = s.replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -38,8 +40,8 @@ function reapplyFilter() {
 	let keywordSelector = '';
 	if (keywordFilter.keyword) {
 		keyword = escape(keywordFilter.keyword);
-		for (const keywordIndex of [1, 2, 3, 4]) {
-			const attribute = `data-keyword-${keywordIndex}`;
+		for (const data of ['name', 'artist', 'keyword-1', 'keyword-2', 'keyword-3', 'keyword-4']) {
+			const attribute = `data-${data}`;
 			keywordSelector += `:not([${attribute}][${attribute}*="${keyword}" i])`;
 		}
 	}
@@ -63,37 +65,67 @@ function reapplyFilter() {
 	if (hasFilter) {
 		filterSheet.deleteRule(0);
 		hasFilter = false;
+		filterButton.classList.remove('has-filter');
 	}
 	if (selector) {
 		filterSheet.insertRule(`${selector} { display: none; }`);
 		hasFilter = true;
+		filterButton.classList.add('has-filter');
 	}
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-	document.getElementById('filter-keyword').addEventListener('input', event => {
-		keywordFilter.keyword = event.target.value;
+window.addEventListener('load', () => {
+	const filterKeyword = document.getElementById('filter-keyword');
+	filterKeyword.addEventListener('input', () => {
+		keywordFilter.keyword = filterKeyword.value;
 		reapplyFilter();
 	});
+	keywordFilter.keyword = filterKeyword.value;
+
 	for (const category in categoryFilter) {
-		document.getElementById(`filter-${category}`).addEventListener('change', event => {
-			categoryFilter[category] = event.target.checked;
+		const element = document.getElementById(`filter-${category}`);
+		element.addEventListener('change', () => {
+			categoryFilter[category] = element.checked;
 			reapplyFilter();
 		});
+		categoryFilter[category] = element.checked;
 	}
+
 	for (const level in levelFilter) {
-		document.getElementById(`filter-level-${level}`).addEventListener('change', event => {
-			levelFilter[level] = event.target.checked;
+		const element = document.getElementById(`filter-level-${level}`);
+		element.addEventListener('change', () => {
+			levelFilter[level] = element.checked;
 			reapplyFilter();
 		});
+		levelFilter[level] = element.checked;
 	}
 
 	const filterClasses = document.getElementById('filter').classList;
-	document.getElementById('filter-button').addEventListener('click', () => {
+	filterButton = document.getElementById('filter-button');
+	filterButton.addEventListener('click', () => {
 		if (filterClasses.contains('hidden')) {
 			filterClasses.remove('hidden');
 		} else {
 			filterClasses.add('hidden');
 		}
 	});
+
+	const resetButton = document.getElementById('filter-reset');
+	resetButton.addEventListener('click', () => {
+		filterKeyword.value = '';
+		keywordFilter.keyword = '';
+		for (const category in categoryFilter) {
+			const element = document.getElementById(`filter-${category}`);
+			element.checked = false;
+			categoryFilter[category] = false;
+		}
+		for (const level in levelFilter) {
+			const element = document.getElementById(`filter-level-${level}`);
+			element.checked = false;
+			levelFilter[level] = false;
+		}
+		reapplyFilter();
+	});
+
+	reapplyFilter();
 });

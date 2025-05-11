@@ -60,6 +60,26 @@ body {
 				color: #4b4b9d;
 			}
 		}
+
+		.category {
+			margin-left: 10px;
+			color: #583318;
+			&.chaos {
+				color: #4b4b9d;
+				text-transform: uppercase;
+			}
+			&.boost {
+				background: linear-gradient(to top, #188800, #3cff27);
+				-webkit-background-clip: text;
+				background-clip: text;
+				-webkit-text-fill-color: transparent;
+				text-transform: uppercase;
+				&::after {
+					content: "!";
+					user-select: none;
+				}
+			}
+		}
 	}
 }
 
@@ -80,74 +100,148 @@ body {
 			font-size: 16px;
 			text-transform: uppercase;
 		}
+
+		&.easy {
+			.level {
+				color: #260eff;
+			}
+			.difficulty {
+				color: #006ee9;
+			}
+		}
+
+		&.normal {
+			.level {
+				color: #ff720e;
+			}
+			.difficulty {
+				color: #e96e00;
+			}
+		}
+
+		&.hard {
+			.level {
+				color: #ff0e2a;
+			}
+			.difficulty {
+				color: #e9005d;
+			}
+		}
+
+		&.extra {
+			.level {
+				color: #920eff;
+			}
+			.difficulty {
+				color: #ad1dba;
+			}
+		}
+
+		&.extra-plus {
+			.level {
+				color: #920eff;
+			}
+			.difficulty {
+				background: linear-gradient(to top, #547eaf, #804eb4);
+				-webkit-background-clip: text;
+				background-clip: text;
+				-webkit-text-fill-color: transparent;
+			}
+		}
+
+		&.chaos {
+			.level {
+				color: #5659b7;
+			}
+			.difficulty {
+				color: #1f2022;
+			}
+		}
+
+		&.chaos-plus {
+			.level {
+				color: #5659b7;
+			}
+			.difficulty {
+				background: linear-gradient(to top, #162138, #082358);
+				-webkit-background-clip: text;
+				background-clip: text;
+				-webkit-text-fill-color: transparent;
+			}
+		}
 	}
 
-	.chart.easy {
-		.level {
-			color: #260eff;
+	.chart-unlock-condition {
+		font-size: 16px;
+		color: #583318;
+		.music {
+			color: #e96e00;
+			&.chaos {
+				color: #4b4b9d;
+			}
 		}
-		.difficulty {
-			color: #006ee9;
-		}
-	}
 
-	.chart.normal {
-		.level {
-			color: #ff720e;
-		}
-		.difficulty {
+		.course {
 			color: #e96e00;
 		}
-	}
 
-	.chart.hard {
-		.level {
-			color: #ff0e2a;
-		}
 		.difficulty {
-			color: #e9005d;
+			text-transform: uppercase;
+			&.easy {
+				color: #006ee9;
+			}
+			&.normal {
+				color: #e96e00;
+			}
+			&.hard {
+				color: #e9005d;
+			}
+			&.extra {
+				color: #ad1dba;
+			}
+			&.extra-plus {
+				background: linear-gradient(to top, #547eaf, #804eb4);
+				-webkit-background-clip: text;
+				background-clip: text;
+				-webkit-text-fill-color: transparent;
+			}
+			&.chaos {
+				color: #1f2022;
+			}
+			&.chaos-plus {
+				background: linear-gradient(to top, #162138, #082358);
+				-webkit-background-clip: text;
+				background-clip: text;
+				-webkit-text-fill-color: transparent;
+			}
 		}
-	}
 
-	.chart.extra {
 		.level {
-			color: #920eff;
+			color: #e96e00;
 		}
-		.difficulty {
-			color: #ad1dba;
-		}
-	}
 
-	.chart.extra-plus {
-		.level {
-			color: #920eff;
-		}
-		.difficulty {
-			background: linear-gradient(to top, #547eaf, #804eb4);
+		.rank {
 			-webkit-background-clip: text;
 			background-clip: text;
 			-webkit-text-fill-color: transparent;
-		}
-	}
-
-	.chart.chaos {
-		.level {
-			color: #5659b7;
-		}
-		.difficulty {
-			color: #1f2022;
-		}
-	}
-
-	.chart.chaos-plus {
-		.level {
-			color: #5659b7;
-		}
-		.difficulty {
-			background: linear-gradient(to top, #162138, #082358);
-			-webkit-background-clip: text;
-			background-clip: text;
-			-webkit-text-fill-color: transparent;
+			&.d {
+				background-image: linear-gradient(to top, #70b8c8, #2942a0);
+			}
+			&.c {
+				background-image: linear-gradient(to top, #91e5ff, #000dea);
+			}
+			&.b {
+				background-image: linear-gradient(to top, #d993ff, #dd27ef);
+			}
+			&.a {
+				background-image: linear-gradient(to top, #ff9696, #ec1414);
+			}
+			&.s {
+				background-image: linear-gradient(to top, #ba8b26, #ffff79, #9a6c22);
+			}
+			&.s-plus {
+				background-image: linear-gradient(to top, #75a7fd, #d8d8ee, #a2e7f8);
+			}
 		}
 	}
 }

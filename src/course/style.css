@@ -1,0 +1,85 @@
+body {
+	margin: 0px;
+}
+
+#course-table {
+	font-size: 16px;
+	th, td {
+		padding: 5px;
+		text-align: center;
+	}
+	th {
+		color: #897248;
+	}
+	tr {
+		border-bottom: 1px solid black;
+	}
+	border-collapse: collapse;
+	table-layout: fixed;
+	thead {
+		top: 0px;
+		position: sticky;
+		background: linear-gradient(to top, #fcd499, #fff4c3);
+		z-index: 10;
+		tr {
+			border-bottom: 2px solid black;
+		}
+		th {
+			user-select: none;
+			&.sort-ascending::after {
+				content: "\2193"; /* down arrow */
+			}
+			&.sort-descending::after {
+				content: "\2191"; /* up arrow */
+			}
+			&.sort-ascending::after, &.sort-descending::after {
+				margin-left: 10px;
+			}
+		}
+	}
+
+	width: 100%;
+	min-width: 500px;
+	.col-version {
+		width: 30%;
+	}
+	.col-id {
+		width: 20%;
+	}
+	.col-name {
+		width: 15%;
+	}
+	.col-reward {
+		width: 20%;
+	}
+	.col-gauge {
+		width: 15%;
+	}
+
+	.version {
+		color: #e96e00;
+	}
+
+	.name {
+		background-image: linear-gradient(to top, #90e4ff, #0005e9);
+		-webkit-background-clip: text;
+		background-clip: text;
+		-webkit-text-fill-color: transparent;
+		&.level-9, &.level-10 {
+			background-image: linear-gradient(to top, #ff8e8e, #e90000);
+		}
+		&.level-11 {
+			background-image: linear-gradient(to top, #d39325, #efc33a, #d39426);
+		}
+		&.level-12 {
+			background-image: linear-gradient(to top, #719dff, #dcd1ff, #62ccff);
+		}
+		&.level-13 {
+			background-image: linear-gradient(to top, #f19bdb, #f0c7ff, #a490ff);
+		}
+	}
+
+	.gauge {
+		color: #867251;
+	}
+}
