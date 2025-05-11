@@ -24,7 +24,7 @@
 			<dd id="version">{{ course.sub_name | escape }}</dd>
 
 			<dt>Name</dt>
-			<dd id="name">{{ course.name | escape }}</dd>
+			<dd id="name" class="level-{{ course.level }}">{{ course.name | escape }}</dd>
 
 			<dt>Reward</dt>
 			<dd id="reward"><span class="coin">{{ course.reward }}</span></dd>
