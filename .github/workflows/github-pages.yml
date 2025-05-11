@@ -32,7 +32,7 @@ jobs:
 
   build:
     needs: check-updates
-    if: needs.check-updates.outputs.has-update == 'true' || !github.event_name != 'schedule'
+    if: needs.check-updates.outputs.has-update == 'true' || github.event_name != 'schedule'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
