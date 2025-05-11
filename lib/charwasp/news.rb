@@ -1,6 +1,5 @@
 class CharWasP::News < Liquid::Drop
-	FIELDS = %i[title items date datetime]
-	attr_accessor *FIELDS
+	attr_accessor *%i[title items date datetime]
 
 	def initialize row
 		@title = row[:title]
@@ -13,9 +12,5 @@ class CharWasP::News < Liquid::Drop
 				CharWasP.db.find_music(line) || line
 			end
 		end
-	end
-
-	def before_method meth
-		FIELDS.include?(meth) ? send(meth) : super
 	end
 end

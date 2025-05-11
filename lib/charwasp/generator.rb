@@ -9,6 +9,7 @@ class CharWasP::Generator
 		generate_music_details
 		generate_course
 		generate_course_details
+		generate_special
 	end
 
 	def generate_public
@@ -56,6 +57,15 @@ class CharWasP::Generator
 			rendered = template 'course-details.liquid', course: course
 			write_html "info/course/#{course.id}.html", rendered
 		end
+	end
+
+	def generate_special
+		info 'Generating special stages'
+		phases = CharWasP.db.each_special_stage.group_by(&:phase).map do |phase, stages|
+			CharWasP::SpecialStage::Phase.new phase, stages
+		end
+		rendered = template 'special.liquid', src_dir: 'special', phases: phases
+		write_html 'info/special.html', rendered
 	end
 
 	def template path, src_dir: nil, **payload

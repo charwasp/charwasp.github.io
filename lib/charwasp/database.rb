@@ -2,12 +2,14 @@ class CharWasP::Database
 	include CharWasP::Logger
 
 	attr_reader :secrets, :has_chaos, :has_non_chaos
-	attr_reader :special_stages, :unlocks, :unknowns
+	attr_reader :special_stages, :unlocks, :unknown_stages
 
 	def init
 		init_params
 		download_and_unzip_if_needed
 		init_db
+		init_special_stages
+		init_unknown_stages
 		init_secrets
 		init_has_chaos
 		init_unlocks
@@ -129,6 +131,34 @@ class CharWasP::Database
 		end
 	end
 
+	def init_special_stages
+		@special_stages = Hash.new { |h, k| h[k] = [] }
+		@db.execute 'SELECT * FROM special' do |row|
+			row.transform_keys! &:to_sym
+			row[:music_id].split(?;).each do |music_id|
+				@special_stages[music_id.to_i].push CharWasP::SpecialStage::StepGroup.new row[:phase_number], [row[:step]]
+			end
+		end
+		@special_stages.keys.each do |id|
+			@special_stages[id] = @special_stages[id].group_by(&:phase).map do |phase, groups|
+				CharWasP::SpecialStage::StepGroup.new phase, groups.flat_map(&:steps)
+			end
+		end
+	end
+
+	def init_unknown_stages
+		@unknown_stages = Hash.new { |h, k| h[k] = [] }
+		@db.execute 'SELECT * FROM unknown' do |row|
+			row.transform_keys! &:to_sym
+			@unknown_stages[row[:music_id].to_i] = case row[:condition_type]
+			when 2
+				row[:param1].split(?;).map { find_music _1.to_i }
+			when 4
+				[4, find_music(67200)]
+			end
+		end
+	end
+
 	def each_music
 		return enum_for :each_music unless block_given?
 		count = 0
@@ -152,7 +182,7 @@ class CharWasP::Database
 		if name.is_a? Integer
 			@db.execute 'SELECT * FROM music WHERE id = ?', [name] do |row|
 				row.transform_keys! &:to_sym
-				return CharWasP::Music.new row
+				return CharWasP::MusicBasic.new row
 			end
 			return
 		end
@@ -191,6 +221,16 @@ class CharWasP::Database
 			row.transform_keys! &:to_sym
 			music = CharWasP::Music.new row
 			return music.charts.find { _1.id == id }
+		end
+	end
+
+	def each_special_stage
+		return enum_for :each_special_stage unless block_given?
+		last = nil
+		@db.execute 'SELECT * FROM special' do |row|
+			row.transform_keys! &:to_sym
+			yield CharWasP::SpecialStage.new row, row[:music_id] != last
+			last = row[:music_id]
 		end
 	end
 end

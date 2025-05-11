@@ -1,12 +1,8 @@
-class CharWasP::Music < Liquid::Drop
+class CharWasP::MusicBasic < Liquid::Drop
 	DIFFICULTIES = %i[easy normal hard extra extra_plus]
 	CHAOS_DIFFICULTIES = %i[chaos chaos_plus]
 
-	FIELDS = %i[
-		id name artist bgm preview keywords chaos boost charts inst vocal
-		secret chaos_version non_chaos_version
-	]
-	attr_accessor *FIELDS
+	attr_accessor *%i[id name artist bgm preview keywords chaos boost charts inst vocal]
 
 	def initialize row
 		@id = row[:id]
@@ -26,15 +22,24 @@ class CharWasP::Music < Liquid::Drop
 		@inst = categories & 4 > 0
 		@vocal = categories & 8 > 0
 		@boost = row[:pickup] != 0
+	end
+end
+
+class CharWasP::Music < CharWasP::MusicBasic
+	DIFFICULTIES = %i[easy normal hard extra extra_plus]
+	CHAOS_DIFFICULTIES = %i[chaos chaos_plus]
+
+	attr_accessor *%i[secret chaos_version non_chaos_version special_stages unknown_stage]
+
+	def initialize row
+		super row
 		@secret = CharWasP.db.secrets.include? @id
 		if CharWasP.db.has_chaos[@id]
 			@chaos_version = CharWasP.db.has_chaos[@id]
 		elsif CharWasP.db.has_non_chaos[@id]
 			@non_chaos_version = CharWasP.db.has_non_chaos[@id]
 		end
-	end
-
-	def before_method meth
-		FIELDS.include?(meth) ? send(meth) : super
+		@special_stages = CharWasP.db.special_stages[@id]
+		@unknown_stage = CharWasP.db.unknown_stages[@id]
 	end
 end

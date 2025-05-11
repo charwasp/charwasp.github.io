@@ -1,6 +1,5 @@
 class CharWasP::Course < Liquid::Drop
-	FIELDS = %i[id name sub_name full_name charts reward gauge level]
-	attr_accessor *FIELDS
+	attr_accessor *%i[id name sub_name full_name charts reward gauge level]
 
 	def initialize row
 		@id = row[:id]
@@ -13,21 +12,12 @@ class CharWasP::Course < Liquid::Drop
 		@level = @id / 10000 % 100 - 10
 	end
 
-	def before_method meth
-		FIELDS.include?(meth) ? send(meth) : super
-	end
-
 	class Version < Liquid::Drop
-		FIELDS = %i[name courses]
-		attr_accessor *FIELDS
+		attr_accessor *%i[name courses]
 
 		def initialize name, courses
 			@name = name
 			@courses = courses
-		end
-
-		def before_method meth
-			FIELDS.include?(meth) ? send(meth) : super
 		end
 	end
 end

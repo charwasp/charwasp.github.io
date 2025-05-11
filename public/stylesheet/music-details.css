@@ -83,9 +83,34 @@ body {
 	}
 }
 
+.stages {
+	margin-left: auto;
+	margin-right: auto;
+	width: fit-content;
+	font-size: 20px;
+	color: #583318;
+	.special {
+		background: linear-gradient(to top, #a60202, #ffb4bb);
+		-webkit-background-clip: text;
+		background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+	.music {
+		color: #e96e00;
+		&.chaos {
+			color: #4b4b9d;
+		}
+		text-decoration: none;
+	}
+	.secret-highlight {
+		color: #808080;
+	}
+}
+
 #charts-table {
 	table-layout: fixed;
 	width: 100%;
+	margin-top: 20px;
 
 	.chart-cell {
 		text-align: center;
@@ -179,6 +204,7 @@ body {
 			&.chaos {
 				color: #4b4b9d;
 			}
+			text-decoration: none;
 		}
 
 		.course {
@@ -241,6 +267,27 @@ body {
 			}
 			&.s-plus {
 				background-image: linear-gradient(to top, #75a7fd, #d8d8ee, #a2e7f8);
+			}
+		}
+
+		.state {
+			-webkit-background-clip: text;
+			background-clip: text;
+			-webkit-text-fill-color: transparent;
+			&.failed {
+				background-image: linear-gradient(to top, #74cae5, #18399f);
+			}
+			&.clear {
+				background-image: linear-gradient(to top, #ffda6e, #eb4b00);
+			}
+			&.hc {
+				background-image: linear-gradient(to top, #f15155, #ffa9a2);
+			}
+			&.fc {
+				background-image: linear-gradient(to top, #3f1000, #ffd651, #714913);
+			}
+			&.ap {
+				background-image: linear-gradient(to top, #8745fd, #f1cde9, #a38efb);
 			}
 		}
 	}

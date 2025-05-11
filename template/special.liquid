@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>Special stages</title>
+
+		<link rel="stylesheet" href="/stylesheet/style.css">
+		{% for stylesheet in stylesheets %}
+			<style>
+				{{ stylesheet }}
+			</style>
+		{% endfor %}
+		{% for script in scripts %}
+			<script>
+				(() => { {{ script }} })();
+			</script>
+		{% endfor %}
+	</head>
+
+	<body>
+		<table id="special-table">
+			<colgroup>
+				<col class="col-phase">
+				<col class="col-step">
+				<col class="col-hp">
+				<col class="col-music">
+			</colgroup>
+
+			<thead>
+				<tr>
+					<th>Phase</th>
+					<th>Step</th>
+					<th>HP</th>
+					<th>Music</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for phase in phases %}
+					{% for stage in phase.stages %}
+						<tr>
+							{% if forloop.first %}
+								<td class="phase" rowspan="{{ phase.stages.size }}">
+									{{- stage.phase -}}
+								</td>
+							{% endif %}
+							<td class="step">{{ stage.step }}</td>
+							<td class="hp">{{ stage.hp }}</td>
+							{% if stage.first_of_group %}
+								<td rowspan="{{ stage.musics.size }}" class="musics">
+									<ul>
+										{% for music in stage.musics %}
+											<li>
+												<a href="/info/music/{{ music.id }}.html" class="music{% if music.chaos %} chaos{% endif %}">
+													{{- music.name | escape -}}
+												</a>
+											</li>
+										{% endfor %}
+									</ul>
+								</td>
+							{% endif %}
+						</tr>
+					{% endfor %}
+				{% endfor %}
+			</tbody>
+		</table>
+	</body>
+</html>

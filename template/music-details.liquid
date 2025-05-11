@@ -44,6 +44,44 @@
 			</dd>
 		</dl>
 
+		{% if music.special_stages != empty %}
+			<div class="stages">
+				Unlock in <a href="/info/special.html" class="special">SPECIAL STAGE</a>:
+				{% for stage_group in music.special_stages %}
+					phase {{ stage_group.phase }} step
+					{% for step in stage_group.steps %}
+						{{ step -}}
+						{%- unless forloop.last %}, {% endunless -%}
+					{%- endfor -%}
+					{%- unless forloop.last %}, {% endunless -%}
+				{% endfor %}
+			</div>
+		{% endif %}
+
+		{% if music.unknown_stage != empty %}
+			<div class="stages">
+				<span class="special">UNKNOWN STAGE</span>:
+				{% if music.unknown_stage.first == 4 %}
+					{% assign m = music.unknown_stage | last %}
+					Unlock after clearing
+					<a href="/info/music/{{ m.id }}.html" class="music{% if m.chaos %} chaos{% endif %}">
+						{{- m.name | escape -}}
+					</a>
+					and tapping
+					<span class="secret-highlight">{{ m.name | split: "" | first }}</span>
+					6 times
+				{% else %}
+					Unlock after clearing
+					{% for m in music.unknown_stage %}
+						<a href="/info/music/{{ m.id }}.html" class="music{% if m.chaos %} chaos{% endif %}">
+							{{- m.name | escape -}}
+						</a>
+						{%- unless forloop.last %}, {% endunless -%}
+					{%- endfor -%}
+				{% endif %}
+			</div>
+		{% endif %}
+
 		<table id="charts-table">
 			{% for chart in music.charts %}
 				<tr>

@@ -1,6 +1,5 @@
 class CharWasP::Chart < Liquid::Drop
-	FIELDS = %i[music id difficulty level price]
-	attr_accessor *FIELDS
+	attr_accessor *%i[music id difficulty level price]
 
 	def initialize music, id, difficulty, level, price
 		@music = music
@@ -8,10 +7,6 @@ class CharWasP::Chart < Liquid::Drop
 		@difficulty = difficulty
 		@level = level
 		@price = price
-	end
-
-	def before_method meth
-		FIELDS.include?(meth) ? send(meth) : super
 	end
 
 	def difficulty_range_text range, chaos

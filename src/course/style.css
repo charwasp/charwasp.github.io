@@ -26,15 +26,6 @@ body {
 		}
 		th {
 			user-select: none;
-			&.sort-ascending::after {
-				content: "\2193"; /* down arrow */
-			}
-			&.sort-descending::after {
-				content: "\2191"; /* up arrow */
-			}
-			&.sort-ascending::after, &.sort-descending::after {
-				margin-left: 10px;
-			}
 		}
 	}
 

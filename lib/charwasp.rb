@@ -18,6 +18,7 @@ require 'charwasp/music'
 require 'charwasp/chart'
 require 'charwasp/news'
 require 'charwasp/course'
+require 'charwasp/special'
 require 'charwasp/generator'
 
 class << CharWasP
