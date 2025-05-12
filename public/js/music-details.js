@@ -20,6 +20,15 @@ let activeStop = false; // to prevent stop() from triggering 'ended' event
 let cheatCount = 0;
 let doCheatAfterLoading = false;
 let volumeRange;
+let objectURL;
+
+function sanitizeFilename(filename) {
+	filename = filename.replace(/[.\s]+$/, '').replace(/[\/<>:"\\\|?*\x00-\x1f]/g, '-');
+	if (filename.length > 255) {
+		filename = filename.slice(filename.length - 255);
+	}
+	return filename;
+}
 
 function cors(url) {
 	return `https://corsproxy.io/?url=${url}`;
@@ -192,12 +201,12 @@ function cheat(mod) {
 function doCheat() {
 	const a = document.createElement('a');
 	a.style.display = 'none';
-	a.href = URL.createObjectURL(new Blob([arrayBuffer]));
-	a.download = 'bgm.ogg';
+	a.href = objectURL ??= URL.createObjectURL(new Blob([arrayBuffer]));
+	a.download = sanitizeFilename(document.getElementById('title').textContent + '.ogg');
 	document.body.appendChild(a);
 	a.click();
 	setTimeout(() => {
-		URL.revokeObjectURL(a.href);
+		// URL.revokeObjectURL(a.href); // Seems to cause problem on some mobile browsers
 		a.remove()
 	}, 0);
 }
