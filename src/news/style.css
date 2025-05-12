@@ -39,3 +39,30 @@
 		}
 	}
 }
+
+.rss {
+	color: #82673f;
+	background: #fff1c1;
+	border: 2px solid #aa8643;
+	border-radius: 8px;
+	margin-top: 20px;
+	margin-left: 43px;
+	padding: 2px 10px;
+	font-size: 18px;
+	text-decoration: none;
+	display: block;
+	width: fit-content;
+	&:hover {
+		filter: brightness(1.1);
+	}
+	&:active {
+		filter: brightness(0.9);
+	}
+	&::before {
+		content: url(/assets/rss.svg);
+		vertical-align: middle;
+		margin-right: 5px;
+		display: inline-block;
+		width: 20px;
+	}
+}

@@ -1,5 +1,10 @@
 class CharWasP::Generator
 	include CharWasP::Logger
+	include CharWasP::Minifier
+
+	def initialize
+		@template_cache = {}
+	end
 
 	def generate
 		generate_public
@@ -16,6 +21,17 @@ class CharWasP::Generator
 		info 'Generating hardcoded pages'
 		FileUtils.rm_r 'dist' if Dir.exist? 'dist'
 		FileUtils.cp_r 'public', 'dist'
+		Dir.glob 'dist/**/*' do |path|
+			if path.end_with? '.js'
+				File.write path, min_js(File.read path)
+			elsif path.end_with? '.css'
+				File.write path, min_css(File.read path)
+			elsif path.end_with? '.html'
+				File.write path, min_html(File.read path)
+			elsif path.end_with? '.svg'
+				File.write path, min_svg(File.read path)
+			end
+		end
 	end
 
 	def generate_signature
@@ -30,8 +46,11 @@ class CharWasP::Generator
 
 	def generate_news
 		info 'Generating news list'
-		rendered = template 'news.liquid', src_dir: 'news', news_list: CharWasP.db.each_news.to_a
+		news_list = CharWasP.db.each_news.to_a
+		rendered = template 'news.liquid', src_dir: 'news', news_list: news_list
 		write_html 'info/news.html', rendered
+		rendered = template 'news-rss.liquid', news_list: news_list, site_url: CharWasP.site_url
+		write_plain 'info/news-rss.xml', rendered
 	end
 
 	def generate_music_details
@@ -69,7 +88,7 @@ class CharWasP::Generator
 	end
 
 	def template path, src_dir: nil, **payload
-		liquid = Liquid::Template.parse File.read File.join 'template', path
+		liquid = @template_cache[path] ||= Liquid::Template.parse File.read File.join 'template', path
 		if src_dir
 			payload[:scripts] = Dir.glob(File.join 'src', src_dir, '*.js').map { File.read _1 }
 			payload[:stylesheets] = Dir.glob(File.join 'src', src_dir, '*.css').map { File.read _1 }
@@ -77,10 +96,13 @@ class CharWasP::Generator
 		liquid.render! payload.transform_keys &:to_s
 	end
 
-	def write_html path, html
+	def write_plain path, content
 		path = File.join 'dist', path
 		FileUtils.mkdir_p File.dirname path
-		html = minify_html html, minify_css: true, minify_js: true
-		File.write path, html
+		File.write path, content
+	end
+
+	def write_html path, html
+		write_plain path, min_html(html)
 	end
 end

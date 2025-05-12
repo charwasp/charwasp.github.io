@@ -1,3 +1,5 @@
+(() => {
+
 const audioContext = new AudioContext();
 const gainNode = audioContext.createGain();
 gainNode.connect(audioContext.destination);
@@ -226,3 +228,5 @@ window.addEventListener('DOMContentLoaded', () => {
 	loopCheckbox.addEventListener('click', () => cheat(0));
 	document.getElementById('title').addEventListener('click', () => cheat(1));
 });
+
+})();

@@ -1,0 +1,32 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+	<channel>
+		<title>CharWasP News</title>
+		<link>{{ site_url }}/info/news.html</link>
+		<lastBuildDate>{{ "now" | date: "%a, %d %b %Y %H:%M:%S %z" }}</lastBuildDate>
+		<description>CharWasP News</description>
+		{% for news in news_list %}
+			<item>
+				<title>{{ news.title | escape }}</title>
+				<description><![CDATA[
+					{%- for item in news.items -%}
+						<ul>
+							{%- for item_item in item -%}
+								<li>
+									{%- if item_item.id -%}
+										<a href="{{ site_url }}/info/music/{{ item_item.id }}.html">
+											{{- item_item.name | escape -}}
+										</a>
+										{%- if item_item.chaos %} CHAOS{% endif -%}
+									{%- else -%}
+										{{ item_item | escape }}
+									{%- endif -%}
+								</li>
+							{%- endfor -%}
+						</ul>
+					{%- endfor -%}
+				]]></description>
+				<pubDate>{{ news.datetime | date: "%a, %d %b %Y %H:%M:%S %z" }}</pubDate>
+			</item>
+		{% endfor %}
+	</channel>
+</rss>

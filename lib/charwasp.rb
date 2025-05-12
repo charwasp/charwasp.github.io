@@ -13,6 +13,7 @@ module CharWasP
 end
 
 require 'charwasp/logger'
+require 'charwasp/minifier'
 require 'charwasp/database'
 require 'charwasp/music'
 require 'charwasp/chart'
@@ -23,7 +24,7 @@ require 'charwasp/generator'
 
 class << CharWasP
 	include CharWasP::Logger
-	attr_reader :package_url, :assets, :db
+	attr_reader :package_url, :assets, :db, :site_url
 
 	def manifest
 		info 'Downloading manifest'
@@ -32,6 +33,8 @@ class << CharWasP
 	end
 
 	def run
+		@site_url = ENV['CHARWASP_SITE_URL']
+
 		@package_url, @assets = manifest.values_at *%i[packageUrl assets]
 		@package_url.sub! %r{^http://}, 'https://'
 		@assets.transform_keys! &:to_s
