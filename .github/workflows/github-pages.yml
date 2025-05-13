@@ -56,6 +56,7 @@ jobs:
       - name: Build
         run: bundle exec rake
         env:
+          BUNDLE_WITHOUT: development
           CHARWASP_SITE_URL: ${{ steps.pages.outputs.base_url }}
           CHARWASP_MANIFEST_URL: ${{ secrets.CHARWASP_MANIFEST_URL }}
 
