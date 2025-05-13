@@ -17,7 +17,7 @@ class CharWasP::Database
 
 	def init_params
 		@asset_key = 'master.zip'
-		@download_url = CharWasP.package_url + @asset_key
+		@download_url = File.join CharWasP.package_url, @asset_key
 		@download_path = File.join 'download', @asset_key
 		@download_md5 = CharWasP.assets[@asset_key][:md5]
 		@unzip_file = 'master.db'

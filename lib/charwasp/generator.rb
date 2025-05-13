@@ -40,24 +40,21 @@ class CharWasP::Generator
 
 	def generate_music
 		info 'Generating music list'
-		rendered = template 'music.liquid', src_dir: 'music', music_list: CharWasP.db.each_music.to_a
-		write_html 'info/music.html', rendered
+		music_list = CharWasP.db.each_music.to_a
+		write_html 'music', 'info/music.html', src_dir: 'music', music_list:
 	end
 
 	def generate_news
 		info 'Generating news list'
 		news_list = CharWasP.db.each_news.to_a
-		rendered = template 'news.liquid', src_dir: 'news', news_list: news_list
-		write_html 'info/news.html', rendered
-		rendered = template 'news-rss.liquid', news_list: news_list, site_url: CharWasP.site_url
-		write_plain 'info/news-rss.xml', rendered
+		write_html('news', 'info/news.html', src_dir: 'news', news_list:)
+		write_plain 'news-rss', 'info/news-rss.xml', news_list:
 	end
 
 	def generate_music_details
 		info 'Generating music details'
 		CharWasP.db.each_music do |music|
-			rendered = template 'music-details.liquid', src_dir: 'music-details', music: music
-			write_html "info/music/#{music.id}.html", rendered
+			write_html 'music-details', "info/music/#{music.id}.html", music:
 		end
 	end
 
@@ -66,15 +63,13 @@ class CharWasP::Generator
 		course_versions = CharWasP.db.each_course.group_by(&:sub_name).map do |name, courses|
 			CharWasP::Course::Version.new name, courses
 		end
-		rendered = template 'course.liquid', src_dir: 'course', course_versions: course_versions
-		write_html 'info/course.html', rendered
+		write_html 'course', 'info/course.html', src_dir: 'course', course_versions:
 	end
 
 	def generate_course_details
 		info 'Generating course details'
 		CharWasP.db.each_course do |course|
-			rendered = template 'course-details.liquid', course: course
-			write_html "info/course/#{course.id}.html", rendered
+			write_html 'course-details', "info/course/#{course.id}.html", course:
 		end
 	end
 
@@ -83,26 +78,37 @@ class CharWasP::Generator
 		phases = CharWasP.db.each_special_stage.group_by(&:phase).map do |phase, stages|
 			CharWasP::SpecialStage::Phase.new phase, stages
 		end
-		rendered = template 'special.liquid', src_dir: 'special', phases: phases
-		write_html 'info/special.html', rendered
+		write_html 'special', 'info/special.html', src_dir: 'special', phases:
 	end
 
 	def template path, src_dir: nil, **payload
-		liquid = @template_cache[path] ||= Liquid::Template.parse File.read File.join 'template', path
+		liquid = @template_cache[path] ||= Liquid::Template.parse File.read File.join 'template', path + '.liquid'
 		if src_dir
 			payload[:scripts] = Dir.glob(File.join 'src', src_dir, '*.js').map { File.read _1 }
 			payload[:stylesheets] = Dir.glob(File.join 'src', src_dir, '*.css').map { File.read _1 }
 		end
+		payload[:site_url] = CharWasP.site_url
 		liquid.render! payload.transform_keys &:to_s
 	end
 
-	def write_plain path, content
+	def write_plain template_path, path, **payload
+		content = template template_path, base: base(path), **payload
+		write path, content
+	end
+
+	def write_html template_path, path, **payload
+		content = min_html template template_path, base: base(path), **payload
+		write path, content
+	end
+
+	def write path, content
 		path = File.join 'dist', path
 		FileUtils.mkdir_p File.dirname path
 		File.write path, content
 	end
 
-	def write_html path, html
-		write_plain path, min_html(html)
+	def base path
+		n = path.count ?/
+		n.zero? ? '.' : Array.new(n, '..').join(?/)
 	end
 end

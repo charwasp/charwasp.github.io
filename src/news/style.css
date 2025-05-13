@@ -59,7 +59,6 @@
 		filter: brightness(0.9);
 	}
 	&::before {
-		content: url(/assets/rss.svg);
 		vertical-align: middle;
 		margin-right: 5px;
 		display: inline-block;

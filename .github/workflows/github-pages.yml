@@ -46,6 +46,8 @@ jobs:
         with:
           ruby-version: '3.2' # minify_html=0.15.0 requires < 3.3; see Gemfile
           bundler-cache: true
+        env:
+          BUNDLE_WITHOUT: development
 
       - name: Configure Pages
         id: pages

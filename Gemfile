@@ -9,4 +9,4 @@ gem 'minify_html', '= 0.15.0' # https://github.com/wilsonzlin/minify-html/issues
 
 gem 'base64' # for Liquid
 
-gem 'webrick'
+gem 'webrick', group: :development

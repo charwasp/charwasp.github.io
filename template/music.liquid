@@ -3,11 +3,11 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml">
+		<link rel="shortcut icon" href="{{ base }}/favicon.svg" type="image/svg+xml">
 
 		<title>Music</title>
 
-		<link rel="stylesheet" href="/stylesheet/style.css">
+		<link rel="stylesheet" href="{{ base }}/stylesheet/style.css">
 		{% for stylesheet in stylesheets %}
 			<style>
 				{{ stylesheet }}
@@ -65,7 +65,7 @@
 							<div data-url="{{ music.preview }}" class="preview-button" style="--progress: 0deg; --download: 0deg;">
 							</div>
 						</td>
-						<td><a href="/info/music/{{ music.id }}.html" class="name{{ music_class }}">{{ music.name | escape }}</span></td>
+						<td><a href="{{ base }}/info/music/{{ music.id }}.html" class="name{{ music_class }}">{{ music.name | escape }}</span></td>
 						<td><span class="artist{{ music_class }}">{{ music.artist | escape }}</span></td>
 						<td class="chart-cell">
 							{% for chart in music.charts %}

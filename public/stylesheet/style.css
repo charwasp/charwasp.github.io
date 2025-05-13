@@ -1,6 +1,6 @@
 @font-face {
 	font-family: 'Light Novel POP V2';
-	src: url("/assets/LightNovelPOPv2.otf") format("opentype");
+	src: url(../assets/LightNovelPOPv2.otf) format("opentype");
 }
 body, input, textarea, button {
 	font-family: 'Light Novel POP V2', sans-serif;
@@ -16,9 +16,13 @@ body {
 .coin {
 	color: #eccd02;
 	&::before {
-		content: url("/assets/coin.svg");
+		content: url(../assets/coin.svg);
 		margin-right: 5px;
 		display: inline-block;
 		vertical-align: middle;
 	}
+}
+
+.rss::before {
+	content: url(../assets/rss.svg);
 }

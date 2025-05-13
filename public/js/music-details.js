@@ -129,7 +129,7 @@ function timeOf(progress) {
 }
 
 function update() {
-	if (source) {
+	if (source && !seeking) {
 		progress = (audioContext.currentTime - startTime) / duration;
 		progress -= Math.floor(progress);
 	}
@@ -152,11 +152,11 @@ function progressOf(pointerEvent) {
 }
 
 function startSeeking(pointerEvent) {
-	pointerEvent.preventDefault();
 	seeking = pointerEvent.pointerId;
 	if (status === 'playing') {
 		stop();
 	}
+	updateSeeking(pointerEvent);
 }
 
 function updateSeeking(pointerEvent) {

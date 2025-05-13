@@ -3,13 +3,13 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml">
+		<link rel="shortcut icon" href="{{ base }}/favicon.svg" type="image/svg+xml">
 
 		<title>{{ music.name | escape }}{% if music.chaos %} CHAOS{% endif %}</title>
 
-		<link rel="stylesheet" href="/stylesheet/style.css">
-		<link rel="stylesheet" href="/stylesheet/music-details.css">
-		<script src="/js/music-details.js" type="module"></script>
+		<link rel="stylesheet" href="{{ base }}/stylesheet/style.css">
+		<link rel="stylesheet" href="{{ base }}/stylesheet/music-details.css">
+		<script src="{{ base }}/js/music-details.js" type="module"></script>
 	</head>
 
 	<body>
@@ -17,11 +17,11 @@
 
 		{% if music.chaos_version %}
 			<div class="alt-version chaos">
-				<a href="/info/music/{{ music.chaos_version }}.html">CHAOS version</a>
+				<a href="{{ base }}/info/music/{{ music.chaos_version }}.html">CHAOS version</a>
 			</div>
 		{% elsif music.non_chaos_version %}
 			<div class="alt-version">
-				<a href="/info/music/{{ music.non_chaos_version }}.html">Non-CHAOS version</a>
+				<a href="{{ base }}/info/music/{{ music.non_chaos_version }}.html">Non-CHAOS version</a>
 			</div>
 		{% endif %}
 
@@ -47,7 +47,7 @@
 
 		{% if music.special_stages != empty %}
 			<div class="stages">
-				Unlock in <a href="/info/special.html" class="special">SPECIAL STAGE</a>:
+				Unlock in <a href="{{ base }}/info/special.html" class="special">SPECIAL STAGE</a>:
 				{% for stage_group in music.special_stages %}
 					phase {{ stage_group.phase }} step
 					{% for step in stage_group.steps %}
@@ -65,7 +65,7 @@
 				{% if music.unknown_stage.first == 4 %}
 					{% assign m = music.unknown_stage | last %}
 					Unlock after clearing
-					<a href="/info/music/{{ m.id }}.html" class="music{% if m.chaos %} chaos{% endif %}">
+					<a href="{{ base }}/info/music/{{ m.id }}.html" class="music{% if m.chaos %} chaos{% endif %}">
 						{{- m.name | escape -}}
 					</a>
 					and tapping
@@ -74,7 +74,7 @@
 				{% else %}
 					Unlock after clearing
 					{% for m in music.unknown_stage %}
-						<a href="/info/music/{{ m.id }}.html" class="music{% if m.chaos %} chaos{% endif %}">
+						<a href="{{ base }}/info/music/{{ m.id }}.html" class="music{% if m.chaos %} chaos{% endif %}">
 							{{- m.name | escape -}}
 						</a>
 						{%- unless forloop.last %}, {% endunless -%}

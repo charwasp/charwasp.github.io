@@ -32,16 +32,29 @@ class << CharWasP
 		JSON.parse response.body, symbolize_names: true
 	end
 
-	def run
-		@site_url = ENV['CHARWASP_SITE_URL']
+	def fetch_upstream
+		if ENV['CHARWASP_PACKAGE_URL'] && ENV['CHARWASP_MASTER_ZIP_SIG']
+			@package_url = +ENV['CHARWASP_PACKAGE_URL']
+			@assets = { 'master.zip' => { md5: ENV['CHARWASP_MASTER_ZIP_SIG'] } }
+		else
+			@package_url, @assets = manifest.values_at *%i[packageUrl assets]
+			@package_url.sub! %r{^http://}, 'https://'
+			@assets.transform_keys! &:to_s
+		end
+		@package_url.sub! %r{/$}, ''
+		@package_url.freeze
+		@assets.freeze
+	end
 
-		@package_url, @assets = manifest.values_at *%i[packageUrl assets]
-		@package_url.sub! %r{^http://}, 'https://'
-		@assets.transform_keys! &:to_s
-
+	def init_db
 		@db = CharWasP::Database.new
 		@db.init
+	end
 
+	def run
+		@site_url = ENV['CHARWASP_SITE_URL']
+		fetch_upstream
+		init_db
 		CharWasP::Generator.new.generate
 	end
 end

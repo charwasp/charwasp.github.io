@@ -19,7 +19,7 @@ class CharWasP::Chart < Liquid::Drop
 	end
 
 	def level_range_text range
-		return 'any level' if range == 1..13
+		return 'any level' if range == (1..13)
 		first, last = [range.first, range.last].map do |level|
 			"<span class=\"level\">#{level}</span>"
 		end
@@ -32,12 +32,12 @@ class CharWasP::Chart < Liquid::Drop
 		unlocks.map do |unlock|
 			if unlock[:music].is_a? CharWasP::Course
 				course = unlock[:music]
-				next "Clear <a class=\"course\" href=\"/info/course/#{course.id}.html\">#{course.full_name}</a>"
+				next "Clear <a class=\"course\" href=\"#{CharWasP.site_url}/info/course/#{course.id}.html\">#{course.full_name}</a>"
 			end
 			count = unlock[:count] == 1 ? "1 chart of" : "#{unlock[:count]} charts of"
 			music = if unlock[:music] != :any
 				m = unlock[:music]
-				"<a class=\"music#{" chaos" if m.chaos}\" href=\"/info/music/#{m.id}.html\">#{m.name}</a>"
+				"<a class=\"music#{" chaos" if m.chaos}\" href=\"#{CharWasP.site_url}/info/music/#{m.id}.html\">#{m.name}</a>"
 			end
 			range = case unlock[:range_type]
 			when :difficulty

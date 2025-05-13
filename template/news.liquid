@@ -3,11 +3,11 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml">
+		<link rel="shortcut icon" href="{{ base }}/favicon.svg" type="image/svg+xml">
 
 		<title>News</title>
 
-		<link rel="stylesheet" href="/stylesheet/style.css">
+		<link rel="stylesheet" href="{{ base }}/stylesheet/style.css">
 		{% for stylesheet in stylesheets %}
 			<style>
 				{{ stylesheet }}
@@ -21,7 +21,7 @@
 	</head>
 
 	<body>
-		<a href="/info/news-rss.xml" class="rss">RSS</a>
+		<a href="{{ base }}/info/news-rss.xml" class="rss">RSS</a>
 
 		{% for news in news_list %}
 			<div class="news">
@@ -34,7 +34,7 @@
 						{% for item_item in item %}
 							<li class="news-item">
 								{%- if item_item.id -%}
-									<a href="/info/music/{{ item_item.id }}.html" class="music{% if item_item.chaos %} chaos{% endif %}">
+									<a href="{{ base }}/info/music/{{ item_item.id }}.html" class="music{% if item_item.chaos %} chaos{% endif %}">
 										{{- item_item.name | escape -}}
 									</a>
 									{%- if item_item.chaos %} CHAOS{% endif -%}

@@ -3,12 +3,12 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml">
+		<link rel="shortcut icon" href="{{ base }}/favicon.svg" type="image/svg+xml">
 
 		<title>{{ course.full_name | escape }}</title>
 
-		<link rel="stylesheet" href="/stylesheet/style.css">
-		<link rel="stylesheet" href="/stylesheet/course-details.css">
+		<link rel="stylesheet" href="{{ base }}/stylesheet/style.css">
+		<link rel="stylesheet" href="{{ base }}/stylesheet/course-details.css">
 	</head>
 
 	<body>
@@ -38,7 +38,7 @@
 			{% for chart in course.charts %}
 				<tr>
 					<td class="music-cell">
-						<a href="/info/music/{{ chart.music.id }}.html" class="music{% if chart.music.chaos %} chaos{% endif %}">
+						<a href="{{ base }}/info/music/{{ chart.music.id }}.html" class="music{% if chart.music.chaos %} chaos{% endif %}">
 							{{- chart.music.name | escape -}}
 						</a>
 					</td>

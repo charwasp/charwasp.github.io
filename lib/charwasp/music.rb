@@ -6,10 +6,10 @@ class CharWasP::MusicBasic < Liquid::Drop
 
 	def initialize row
 		@id = row[:id]
-		@preview = CharWasP.package_url + "Preview/preview_#@id.ogg"
+		@preview = File.join CharWasP.package_url, "Preview/preview_#@id.ogg"
 		@name = row[:name]
 		@artist = row[:artist]
-		@bgm = CharWasP.package_url + row[:file]
+		@bgm = File.join CharWasP.package_url, row[:file]
 		@chaos = row[:chaos] != 0
 		@charts = (@chaos ? CHAOS_DIFFICULTIES : DIFFICULTIES).map.with_index do |difficulty, i|
 			level = row[:"level_#{i+1}"]
