@@ -31,7 +31,7 @@ class CharWasP::Database
 	end
 
 	def download
-		info "Downloading #@asset_key from #@download_url"
+		info "Downloading #@asset_key"
 		FileUtils.mkdir_p 'download'
 		File.open @download_path, 'wb' do |file|
 			file.write Net::HTTP.get URI @download_url

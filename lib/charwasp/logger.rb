@@ -16,4 +16,6 @@ module CharWasP::Logger
 		end
 		module_function level
 	end
+
+	@logger.level = ENV['CHARWASP_LOG_LEVEL']&.to_sym || :info
 end

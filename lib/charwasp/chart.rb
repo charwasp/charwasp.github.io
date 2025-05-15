@@ -41,7 +41,7 @@ class CharWasP::Chart < Liquid::Drop
 			end
 			range = case unlock[:range_type]
 			when :difficulty
-				difficulty_range_text unlock[:range], unlock[:music].is_a?(CharWasP::Music) && unlock[:music].chaos
+				difficulty_range_text unlock[:range], unlock[:music].is_a?(CharWasP::MusicBasic) && unlock[:music].chaos
 			when :level
 				level_range_text unlock[:range]
 			end
