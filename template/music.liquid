@@ -8,6 +8,7 @@
 		<title>Music</title>
 
 		<link rel="stylesheet" href="{{ base }}/stylesheet/style.css">
+		<link rel="stylesheet" href="{{ base }}/stylesheet/main-table.css">
 		{% for stylesheet in stylesheets %}
 			<style>
 				{{ stylesheet }}
@@ -21,7 +22,12 @@
 	</head>
 
 	<body>
-		<table id="music-table">
+		<ul class="breadcrumb">
+			<li><a href="{{ base }}/info/">Info</a></li>
+			<li><a href="{{ base }}/info/music.html">Music</a></li>
+		</ul>
+
+		<table id="main-table">
 			<colgroup>
 				<col class="col-id">
 				<col class="col-preview">
@@ -70,8 +76,16 @@
 						<td class="chart-cell">
 							{% for chart in music.charts %}
 								<div class="chart {{ chart.difficulty | replace: "_", "-" }}">
-									<div class="level">{{ chart.level }}</div>
-									<div class="difficulty">{{ chart.difficulty | replace: "_plus", "+" }}</div>
+									<div class="level">
+										<a href="{{ base }}/viewer/?id={{ music.id }}&chart={{ chart.difficulty_id }}">
+											{{- chart.level -}}
+										</a>
+									</div>
+									<div class="difficulty">
+										<a href="{{ base }}/viewer/?id={{ music.id }}&chart={{ chart.difficulty_id }}">
+											{{- chart.difficulty | replace: "_plus", "+" -}}
+										</a>
+									</div>
 								</div>
 							{% endfor %}
 						</td>

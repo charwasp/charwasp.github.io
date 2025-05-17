@@ -20,6 +20,7 @@ GEM
     sqlite3 (2.6.0-x86_64-linux-gnu)
     sqlite3 (2.6.0-x86_64-linux-musl)
     strscan (3.1.5)
+    tqdm (0.4.1)
     webrick (1.9.1)
 
 PLATFORMS
@@ -39,6 +40,7 @@ DEPENDENCIES
   rake
   rubyzip
   sqlite3
+  tqdm
   webrick
 
 BUNDLED WITH

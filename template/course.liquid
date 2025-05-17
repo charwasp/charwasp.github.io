@@ -8,6 +8,7 @@
 		<title>Courses</title>
 
 		<link rel="stylesheet" href="{{ base }}/stylesheet/style.css">
+		<link rel="stylesheet" href="{{ base }}/stylesheet/main-table.css">
 		{% for stylesheet in stylesheets %}
 			<style>
 				{{ stylesheet }}
@@ -21,12 +22,18 @@
 	</head>
 
 	<body>
-		<table id="course-table">
+		<ul class="breadcrumb">
+			<li><a href="{{ base }}/info/">Info</a></li>
+			<li><a href="{{ base }}/info/course.html">Courses</a></li>
+		</ul>
+
+		<table id="main-table">
 			<colgroup>
 				<col class="col-version">
 				<col class="col-id">
 				<col class="col-name">
 				<col class="col-reward">
+				<col class="col-gauge">
 			</colgroup>
 
 			<thead>

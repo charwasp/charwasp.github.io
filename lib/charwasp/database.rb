@@ -224,6 +224,12 @@ class CharWasP::Database
 		end
 	end
 
+	def find_actual_chart id
+		@db.execute 'SELECT data FROM note WHERE id = ?', [id] do |row|
+			return CharWasP::ActualChart.new JSON.parse row['data'], symbolize_names: true
+		end
+	end
+
 	def each_special_stage
 		return enum_for :each_special_stage unless block_given?
 		last = nil
@@ -232,5 +238,12 @@ class CharWasP::Database
 			yield CharWasP::SpecialStage.new row, row[:music_id] != last
 			last = row[:music_id]
 		end
+	end
+
+	def music_count
+		@db.execute('SELECT COUNT(*) AS count FROM music') do |row|
+			return row['count']
+		end
+		nil
 	end
 end

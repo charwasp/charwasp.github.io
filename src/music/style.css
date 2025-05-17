@@ -1,43 +1,16 @@
-body {
-	margin: 0px;
-}
-
-#music-table {
-	font-size: 16px;
-	th, td {
-		padding: 5px;
-	}
+#main-table {
 	th {
-		color: #897248;
-	}
-	tr {
-		border-bottom: 1px solid black;
-	}
-	border-collapse: collapse;
-	table-layout: fixed;
-	thead {
-		top: 0px;
-		position: sticky;
-		background: linear-gradient(to top, #fcd499, #fff4c3);
-		z-index: 10;
-		tr {
-			border-bottom: 2px solid black;
+		&.sort-ascending::after {
+			content: "\2193"; /* down arrow */
 		}
-		th {
-			user-select: none;
-			&.sort-ascending::after {
-				content: "\2193"; /* down arrow */
-			}
-			&.sort-descending::after {
-				content: "\2191"; /* up arrow */
-			}
-			&.sort-ascending::after, &.sort-descending::after {
-				margin-left: 10px;
-			}
+		&.sort-descending::after {
+			content: "\2191"; /* up arrow */
+		}
+		&.sort-ascending::after, &.sort-descending::after {
+			margin-left: 10px;
 		}
 	}
 
-	width: 100%;
 	min-width: 800px;
 	.col-id {
 		width: 8%;
@@ -122,6 +95,10 @@ body {
 		.difficulty {
 			font-size: 10px;
 			text-transform: uppercase;
+		}
+		a {
+			text-decoration: none;
+			color: inherit;
 		}
 
 		&.easy {

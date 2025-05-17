@@ -53,7 +53,10 @@ class CharWasP::Generator
 
 	def generate_music_details
 		info 'Generating music details'
-		CharWasP.db.each_music do |music|
+		FileUtils.mkdir_p 'dist/info/cwp-music'
+		CharWasP.db.each_music.with_progress(total: CharWasP.db.music_count).each do |music|
+			music.load_actual_charts
+			File.open("dist/info/cwp-music/#{music.id}.cwpm", 'wb') { music.write _1 }
 			write_html 'music-details', "info/music/#{music.id}.html", music:
 		end
 	end

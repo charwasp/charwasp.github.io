@@ -1,0 +1,31 @@
+body:has(> #main-table) {
+	margin: 0px;
+}
+
+#main-table {
+	font-size: 16px;
+	width: 100%;
+	th, td {
+		padding: 5px;
+	}
+	th {
+		color: #897248;
+	}
+	tr {
+		border-bottom: 1px solid black;
+	}
+	border-collapse: collapse;
+	table-layout: fixed;
+	thead {
+		top: 0px;
+		position: sticky;
+		background: linear-gradient(to top, #fcd499, #fff4c3);
+		z-index: 10;
+		tr {
+			border-bottom: 2px solid black;
+		}
+		th {
+			user-select: none;
+		}
+	}
+}

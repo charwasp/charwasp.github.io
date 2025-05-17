@@ -2,34 +2,11 @@ body {
 	margin: 0px;
 }
 
-#course-table {
-	font-size: 16px;
-	th, td {
-		padding: 5px;
+#main-table {
+	td {
 		text-align: center;
 	}
-	th {
-		color: #897248;
-	}
-	tr {
-		border-bottom: 1px solid black;
-	}
-	border-collapse: collapse;
-	table-layout: fixed;
-	thead {
-		top: 0px;
-		position: sticky;
-		background: linear-gradient(to top, #fcd499, #fff4c3);
-		z-index: 10;
-		tr {
-			border-bottom: 2px solid black;
-		}
-		th {
-			user-select: none;
-		}
-	}
 
-	width: 100%;
 	min-width: 500px;
 	.col-version {
 		width: 30%;

@@ -47,7 +47,7 @@ jobs:
           ruby-version: '3.2' # minify_html=0.15.0 requires < 3.3; see Gemfile
           bundler-cache: true
         env:
-          BUNDLE_WITHOUT: development
+          BUNDLE_WITHOUT: development:optional
 
       - name: Configure Pages
         id: pages
@@ -56,7 +56,7 @@ jobs:
       - name: Build
         run: bundle exec rake
         env:
-          BUNDLE_WITHOUT: development
+          BUNDLE_WITHOUT: development:optional
           CHARWASP_SITE_URL: ${{ steps.pages.outputs.base_url }}
           CHARWASP_MANIFEST_URL: ${{ secrets.CHARWASP_MANIFEST_URL }}
 

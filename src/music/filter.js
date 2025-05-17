@@ -61,7 +61,7 @@ function reapplyFilter() {
 	}
 
 	const selectors = [keywordSelector, categorySelector, levelSelector].filter(Boolean);
-	const selector = selectors.map(s => '#music-table > tbody > tr' + s).join(', ');
+	const selector = selectors.map(s => '#main-table > tbody > tr' + s).join(', ');
 	if (hasFilter) {
 		filterSheet.deleteRule(0);
 		hasFilter = false;

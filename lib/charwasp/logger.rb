@@ -1,5 +1,4 @@
 module CharWasP::Logger
-	@logger = Logger.new $stdout
 	singleton_class.attr_reader :logger
 
 	def self.level
@@ -17,5 +16,17 @@ module CharWasP::Logger
 		module_function level
 	end
 
-	@logger.level = ENV['CHARWASP_LOG_LEVEL']&.to_sym || :info
+	begin
+		require 'logger'
+		@logger = Logger.new $stdout
+	rescue LoadError
+		class << @logger = Object.new
+			attr_accessor :level
+			%i[debug info warn error fatal unknown].each do |level|
+				define_method(level) { puts _1 }
+			end
+		end
+	ensure
+		@logger.level = ENV['CHARWASP_LOG_LEVEL']&.to_sym || :info
+	end
 end

@@ -98,7 +98,7 @@ function sortByArtist(tbody) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-	const tbody = document.getElementById('music-table').getElementsByTagName('tbody')[0];
+	const tbody = document.getElementById('main-table').getElementsByTagName('tbody')[0];
 	document.getElementById('id').addEventListener('click', event => {
 		updateCurrentSort(event.target);
 		sortById(tbody)

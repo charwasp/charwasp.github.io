@@ -3,11 +3,17 @@ require 'net/http'
 require 'digest'
 require 'fileutils'
 
-require 'logger'
 require 'zip'
 require 'sqlite3'
 require 'liquid'
 require 'minify_html'
+require 'base64'
+
+begin
+	require 'tqdm'
+rescue LoadError
+	Enumerable.define_method(:with_progress) { |*args, **opts| self }
+end
 
 module CharWasP
 end

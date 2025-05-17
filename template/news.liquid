@@ -21,6 +21,11 @@
 	</head>
 
 	<body>
+		<ul class="breadcrumb">
+			<li><a href="{{ base }}/info/">Info</a></li>
+			<li><a href="{{ base }}/info/news.html">News</a></li>
+		</ul>
+
 		<a href="{{ base }}/info/news-rss.xml" class="rss">RSS</a>
 
 		{% for news in news_list %}

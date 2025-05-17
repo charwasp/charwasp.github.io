@@ -13,6 +13,12 @@
 	</head>
 
 	<body>
+		<ul class="breadcrumb">
+			<li><a href="{{ base }}/info/">Info</a></li>
+			<li><a href="{{ base }}/info/music.html">Music</a></li>
+			<li><a href="{{ base }}/info/music/{{ music.id }}.html">{{ music.name | escape }}</a></li>
+		</ul>
+
 		<h1 id="title"{% if music.chaos %} class="chaos"{% endif %}>{{ music.name | escape }}</h1>
 
 		{% if music.chaos_version %}
@@ -88,9 +94,20 @@
 				<tr>
 					<td class="chart-cell">
 						<div class="chart {{ chart.difficulty | replace: "_", "-" }}">
-							<div class="level">{{ chart.level }}</div>
-							<div class="difficulty">{{ chart.difficulty | replace: "_plus", "+" }}</div>
+							<div class="level">
+								<a href="{{ base }}/viewer/?id={{ music.id }}&chart={{ chart.difficulty_id }}">
+									{{- chart.level -}}
+								</a>
+							</div>
+							<div class="difficulty">
+								<a href="{{ base }}/viewer/?id={{ music.id }}&chart={{ chart.difficulty_id }}">
+									{{- chart.difficulty | replace: "_plus", "+" -}}
+								</a>
+							</div>
 						</div>
+					</td>
+					<td class="note-count-cell">
+						{{- chart.note_count -}}
 					</td>
 					<td class="chart-unlock-cell">
 						<ul>

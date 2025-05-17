@@ -12,6 +12,12 @@
 	</head>
 
 	<body>
+		<ul class="breadcrumb">
+			<li><a href="{{ base }}/info/">Info</a></li>
+			<li><a href="{{ base }}/info/course.html">Courses</a></li>
+			<li><a href="{{ base }}/info/course/{{ course.id }}.html">{{ course.full_name | escape }}</a></li>
+		</ul>
+
 		<h1 id="title">
 			{{- course.sub_name | escape }}
 			<span class="level-{{ course.level }}">{{ course.name | escape }}</span>
@@ -44,8 +50,16 @@
 					</td>
 					<td class="chart-cell">
 						<div class="chart {{ chart.difficulty | replace: "_", "-" }}">
-							<div class="level">{{ chart.level }}</div>
-							<div class="difficulty">{{ chart.difficulty | replace: "_plus", "+" }}</div>
+							<div class="level">
+								<a href="{{ base }}/viewer/?id={{ chart.music.id }}&chart={{ chart.difficulty_id }}">
+									{{- chart.level -}}
+								</a>
+							</div>
+							<div class="difficulty">
+								<a href="{{ base }}/viewer/?id={{ chart.music.id }}&chart={{ chart.difficulty_id }}">
+									{{- chart.difficulty | replace: "_plus", "+" -}}
+								</a>
+							</div>
 						</div>
 					</td>
 				</tr>
