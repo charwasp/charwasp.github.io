@@ -29,6 +29,7 @@ require 'charwasp/course'
 require 'charwasp/special'
 require 'charwasp/generator'
 require 'charwasp/streaming_source'
+require 'charwasp/liquid_extensions'
 
 class << CharWasP
 	include CharWasP::Logger

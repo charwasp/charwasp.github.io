@@ -66,6 +66,7 @@ jobs:
           CHARWASP_MANIFEST_URL: ${{ secrets.CHARWASP_MANIFEST_URL }}
           SOUNDCLOUD_OAUTH_TOKEN: ${{ secrets.SOUNDCLOUD_OAUTH_TOKEN }}
           INVIDIOUS_HOST: ${{ secrets.INVIDIOUS_HOST }}
+          CHARWASP_GITHUB_REPO_URL: https://github.com/${{ github.repository }}
 
       - name: Update additional music data
         uses: exuanbo/actions-deploy-gist@v1

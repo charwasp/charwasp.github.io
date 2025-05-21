@@ -55,8 +55,10 @@ class CharWasP::Generator
 		info 'Generating music details'
 		FileUtils.mkdir_p 'dist/info/cwp-music'
 		CharWasP.db.each_music.with_progress(total: CharWasP.db.music_count).each do |music|
-			music.load_actual_charts
-			File.open("dist/info/cwp-music/#{music.id}.cwpm", 'wb') { music.write _1 }
+			if ENV['CHARWASP_DONT_LOAD_CHARTS'] != '1'
+				music.load_actual_charts
+				File.open("dist/info/cwp-music/#{music.id}.cwpm", 'wb') { music.write _1 }
+			end
 			write_html 'music-details', "info/music/#{music.id}.html", music:
 		end
 	end
@@ -90,6 +92,7 @@ class CharWasP::Generator
 			payload[:scripts] = Dir.glob(File.join 'src', src_dir, '*.js').map { File.read _1 }
 			payload[:stylesheets] = Dir.glob(File.join 'src', src_dir, '*.css').map { File.read _1 }
 		end
+		payload[:github_repo_url] = ENV['CHARWASP_GITHUB_REPO_URL']
 		payload[:site_url] = CharWasP.site_url
 		liquid.render! payload.transform_keys &:to_s
 	end

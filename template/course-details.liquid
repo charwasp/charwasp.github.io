@@ -51,12 +51,12 @@
 					<td class="chart-cell">
 						<div class="chart {{ chart.difficulty | replace: "_", "-" }}">
 							<div class="level">
-								<a href="{{ base }}/viewer/?id={{ chart.music.id }}&chart={{ chart.difficulty_id }}">
+								<a href="{{ base }}/viewer/?id={{ chart.music.id }}&chart={{ chart.difficulty_id }}" target="_blank">
 									{{- chart.level -}}
 								</a>
 							</div>
 							<div class="difficulty">
-								<a href="{{ base }}/viewer/?id={{ chart.music.id }}&chart={{ chart.difficulty_id }}">
+								<a href="{{ base }}/viewer/?id={{ chart.music.id }}&chart={{ chart.difficulty_id }}" target="_blank">
 									{{- chart.difficulty | replace: "_plus", "+" -}}
 								</a>
 							</div>

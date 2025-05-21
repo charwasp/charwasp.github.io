@@ -98,12 +98,12 @@
 					<td class="chart-cell">
 						<div class="chart {{ chart.difficulty | replace: "_", "-" }}">
 							<div class="level">
-								<a href="{{ base }}/viewer/?id={{ music.id }}&chart={{ chart.difficulty_id }}">
+								<a href="{{ base }}/viewer/?id={{ music.id }}&chart={{ chart.difficulty_id }}" target="_blank">
 									{{- chart.level -}}
 								</a>
 							</div>
 							<div class="difficulty">
-								<a href="{{ base }}/viewer/?id={{ music.id }}&chart={{ chart.difficulty_id }}">
+								<a href="{{ base }}/viewer/?id={{ music.id }}&chart={{ chart.difficulty_id }}" target="_blank">
 									{{- chart.difficulty | replace: "_plus", "+" -}}
 								</a>
 							</div>
@@ -116,7 +116,7 @@
 						<ul>
 							{% for condition in chart.unlock_conditions %}
 								<li class="chart-unlock-condition">
-									{{ condition }}
+									{{ condition | liquify }}
 								</li>
 							{% endfor %}
 						</ul>
@@ -134,6 +134,15 @@
 					allowfullscreen
 					src="{{ music.streaming_source.embed_url }}"
 				></iframe>
+			</div>
+			<div class="streaming-source-notice">
+				Wrong streaming source? Report
+				<a href="{{ github_repo_url }}/issues/new?title=Streaming%20source%20for%20{{ music.name | url_encode }}" target="_blank">here</a>.
+			</div>
+		{% else %}
+			<div class="streaming-source-notice">
+				No streaming source available. Suggest one
+				<a href="{{ github_repo_url }}/issues/new?title=Streaming%20source%20for%20{{ music.name | url_encode }}" target="_blank">here</a>.
 			</div>
 		{% endif %}
 
