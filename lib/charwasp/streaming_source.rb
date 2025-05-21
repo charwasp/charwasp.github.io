@@ -40,9 +40,9 @@ class CharWasP::StreamingSource
 
 		def self.search q, duration
 			return unless @uri
-			uri.query = URI.encode_www_form({ q:, type: 'video' })
-			res = Net::HTTP.start uri.host, uri.port, use_ssl: true do |http|
-				req = Net::HTTP::Get.new uri
+			@uri.query = URI.encode_www_form({ q:, type: 'video' })
+			res = Net::HTTP.start @uri.host, @uri.port, use_ssl: true do |http|
+				req = Net::HTTP::Get.new @uri
 				req['Accept'] = 'application/json; charset=utf-8'
 				http.request req
 			end
