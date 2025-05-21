@@ -80,6 +80,10 @@ body {
 				}
 			}
 		}
+
+		&#duration {
+			color: #583318;
+		}
 	}
 }
 
@@ -300,6 +304,16 @@ body {
 				background-image: linear-gradient(to top, #8745fd, #f1cde9, #a38efb);
 			}
 		}
+	}
+}
+
+.streaming-source {
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	iframe {
+		width: 100%;
+		height: 300px;
 	}
 }
 

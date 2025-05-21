@@ -1,3 +1,4 @@
 dist
 download
 .env
+data/*.json

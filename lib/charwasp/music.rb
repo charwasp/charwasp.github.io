@@ -2,14 +2,22 @@ class CharWasP::MusicBasic < Liquid::Drop
 	DIFFICULTIES = %i[easy normal hard extra extra_plus]
 	CHAOS_DIFFICULTIES = %i[chaos chaos_plus]
 
-	attr_accessor *%i[id name artist bgm preview keywords chaos boost charts inst vocal]
+	attr_accessor *%i[
+		id name artist
+		bgm_relative bgm bgm_hash preview_relative preview preview_hash
+		keywords chaos boost charts inst vocal
+	]
 
 	def initialize row
 		@id = row[:id]
-		@preview = File.join CharWasP.package_url, "Preview/preview_#@id.ogg"
+		@preview_relative = "Preview/preview_#@id.ogg"
+		@preview = File.join CharWasP.package_url, @preview_relative
+		@preview_hash = row[:preview_hash]
 		@name = row[:name]
 		@artist = row[:artist]
-		@bgm = File.join CharWasP.package_url, row[:file]
+		@bgm_relative = row[:file]
+		@bgm = File.join CharWasP.package_url, @bgm_relative
+		@bgm_hash = row[:hash]
 		@chaos = row[:chaos] != 0
 		@charts = (@chaos ? CHAOS_DIFFICULTIES : DIFFICULTIES).map.with_index do |difficulty, i|
 			level = row[:"level_#{i+1}"]
@@ -29,7 +37,10 @@ class CharWasP::Music < CharWasP::MusicBasic
 	DIFFICULTIES = %i[easy normal hard extra extra_plus]
 	CHAOS_DIFFICULTIES = %i[chaos chaos_plus]
 
-	attr_accessor *%i[secret chaos_version non_chaos_version special_stages unknown_stage]
+	attr_accessor *%i[
+		secret chaos_version non_chaos_version special_stages unknown_stage
+		duration streaming_source
+	]
 
 	def initialize row
 		super row
@@ -41,6 +52,8 @@ class CharWasP::Music < CharWasP::MusicBasic
 		end
 		@special_stages = CharWasP.db.special_stages[@id]
 		@unknown_stage = CharWasP.db.unknown_stages[@id]
+		@duration = CharWasP.db.durations[@id]
+		@streaming_source = CharWasP.db.streaming_sources[@id]
 	end
 
 	def load_actual_charts

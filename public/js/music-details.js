@@ -236,6 +236,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	loopCheckbox.addEventListener('click', () => cheat(0));
 	document.getElementById('title').addEventListener('click', () => cheat(1));
+
+	const duration = Number(document.getElementById('duration').textContent);
+	const minutes = Math.floor(duration / 60);
+	const seconds = String(Math.floor(duration % 60)).padStart(2, '0');
+	const milliseconds = String(Math.round((duration % 1) * 1000)).padStart(3, '0');
+	progressText.textContent = `0:00.000 / ${minutes}:${seconds}.${milliseconds}`;
 });
 
 })();

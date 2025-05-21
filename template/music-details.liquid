@@ -41,6 +41,9 @@
 			<dt>Artist</dt>
 			<dd {% if music.chaos %}class="chaos"{% endif %} id="artist">{{ music.artist | escape }}</dd>
 
+			<dt>Duration</dt>
+			<dd id="duration">{{ music.duration | times: 1000 | floor | divided_by: 1000.0 }}</dd>
+
 			<dt>Categories</dt>
 			<dd id="categories">
 				{%- if music.secret -%}<span class="category secret">Secret</span>{%- endif -%}
@@ -121,6 +124,18 @@
 				</tr>
 			{% endfor %}
 		</table>
+
+		{% if music.streaming_source %}
+			<div class="streaming-source">
+				<iframe
+					href="{{ music.streaming_source.url }}"
+					frameborder="0"
+					scrolling="no"
+					allowfullscreen
+					src="{{ music.streaming_source.embed_url }}"
+				></iframe>
+			</div>
+		{% endif %}
 
 		<div data-url="{{ music.bgm }}" id="bgm">
 			<div id="progress-bar" style="--progress: 0%;"></div>

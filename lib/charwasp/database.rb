@@ -2,7 +2,7 @@ class CharWasP::Database
 	include CharWasP::Logger
 
 	attr_reader :secrets, :has_chaos, :has_non_chaos
-	attr_reader :special_stages, :unlocks, :unknown_stages
+	attr_reader :special_stages, :unlocks, :unknown_stages, :durations, :streaming_sources
 
 	def init
 		init_params
@@ -13,6 +13,7 @@ class CharWasP::Database
 		init_secrets
 		init_has_chaos
 		init_unlocks
+		init_music_additional_data
 	end
 
 	def init_params
@@ -159,14 +160,56 @@ class CharWasP::Database
 		end
 	end
 
+	def init_music_additional_data
+		data = File.exist?('data/music.json') ? JSON.load_file('data/music.json', create_additions: true) : {}
+		data.transform_keys! &:to_i
+		data.each_value { _1.transform_keys! &:to_sym }
+		init_durations data
+		init_streaming_sources data
+		File.write 'data/music.json', JSON.pretty_generate(data, indent: ?\t) + ?\n
+	end
+
+	def init_durations data
+		@durations = {}
+		@db.execute 'SELECT id, file, hash FROM music' do |row|
+			id = row['id']
+			if data[id]&.[] :duration
+				@durations[id] = data[id][:duration]
+				next
+			end
+			path = File.join 'download', row['file']
+			if !File.exist?(path) || Digest::MD5.file(path).hexdigest != row['hash']
+				info "Downloading music #{id}..."
+				FileUtils.mkdir_p File.dirname path
+				File.binwrite path, Net::HTTP.get(URI File.join CharWasP.package_url, row['file'])
+			end
+			File.open path, 'rb' do |file|
+				@durations[id] = WahWah.open(file).duration
+			end
+			(data[id] ||= {})[:duration] = @durations[id]
+		end
+	end
+
+	def init_streaming_sources data
+		@streaming_sources = {}
+		@db.execute 'SELECT id, artist, name FROM music' do |row|
+			id = row['id']
+			if data[id]&.key? :streaming_sources
+				@streaming_sources[id] = data[id][:streaming_sources]
+				next
+			end
+			info "Looking for a streaming source for music #{id}..."
+			@streaming_sources[id] = CharWasP::StreamingSource.find "#{row['artist']} #{row['name']}", data[id]&.[](:duration)
+			(data[id] ||= {})[:streaming_sources] = @streaming_sources[id]
+			File.write 'data/music.json', JSON.pretty_generate(data, indent: ?\t) + ?\n # TO BE DELETED
+		end
+	end
+
 	def each_music
 		return enum_for :each_music unless block_given?
-		count = 0
 		@db.execute 'SELECT * FROM music' do |row|
-			# break if count >= 100
 			row.transform_keys! &:to_sym
 			yield CharWasP::Music.new row
-			count += 1
 		end
 	end
 
@@ -219,7 +262,7 @@ class CharWasP::Database
 	def find_chart id
 		@db.execute 'SELECT * FROM music WHERE ? IN (note_id_1, note_id_2, note_id_3, note_id_4, note_id_5)', [id] do |row|
 			row.transform_keys! &:to_sym
-			music = CharWasP::Music.new row
+			music = CharWasP::MusicBasic.new row
 			return music.charts.find { _1.id == id }
 		end
 	end

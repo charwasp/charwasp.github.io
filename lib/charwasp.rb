@@ -8,6 +8,7 @@ require 'sqlite3'
 require 'liquid'
 require 'minify_html'
 require 'base64'
+require 'wahwah'
 
 begin
 	require 'tqdm'
@@ -27,6 +28,7 @@ require 'charwasp/news'
 require 'charwasp/course'
 require 'charwasp/special'
 require 'charwasp/generator'
+require 'charwasp/streaming_source'
 
 class << CharWasP
 	include CharWasP::Logger

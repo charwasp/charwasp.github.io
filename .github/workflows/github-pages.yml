@@ -53,12 +53,26 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
 
+      - name: Restore additional music data
+        run: |
+          set -e
+          curl -fsSL $(curl -fsS -w '%{redirect_url}\n' https://gist.github.com/${{ secrets.GIST_ID }})/raw > data/music.json
+
       - name: Build
         run: bundle exec rake
         env:
           BUNDLE_WITHOUT: development:optional
           CHARWASP_SITE_URL: ${{ steps.pages.outputs.base_url }}
           CHARWASP_MANIFEST_URL: ${{ secrets.CHARWASP_MANIFEST_URL }}
+          SOUNDCLOUD_OAUTH_TOKEN: ${{ secrets.SOUNDCLOUD_OAUTH_TOKEN }}
+          INVIDIOUS_HOST: ${{ secrets.INVIDIOUS_HOST }}
+
+      - name: Update additional music data
+        uses: exuanbo/actions-deploy-gist@v1
+        with:
+          token: ${{ secrets.GIST_TOKEN }}
+          gist_id: ${{ secrets.GIST_ID }}
+          file_path: data/music.json
 
       - name: Upload
         uses: actions/upload-pages-artifact@v3
