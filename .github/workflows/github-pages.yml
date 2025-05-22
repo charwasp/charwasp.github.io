@@ -59,6 +59,8 @@ jobs:
           set -e
           curl -fsSL $(curl -fsS -w '%{redirect_url}\n' https://gist.github.com/${{ secrets.GIST_ID }})/raw > data/music.json
           bundle exec rake hash_data
+        env:
+          BUNDLE_WITHOUT: development:optional
 
       - name: Build
         id: build
