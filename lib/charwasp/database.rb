@@ -201,7 +201,6 @@ class CharWasP::Database
 			info "Looking for a streaming source for music #{id}..."
 			@streaming_sources[id] = CharWasP::StreamingSource.find "#{row['artist']} #{row['name']}", data[id]&.[](:duration)
 			(data[id] ||= {})[:streaming_sources] = @streaming_sources[id]
-			File.write 'data/music.json', JSON.pretty_generate(data, indent: ?\t) + ?\n # TO BE DELETED
 		end
 	end
 

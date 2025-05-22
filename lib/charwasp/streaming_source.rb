@@ -109,9 +109,31 @@ class CharWasP::StreamingSource
 		end
 	end
 
+	class BandCamp < Basic
+		attr_reader :url
+
+		def initialize data
+			super
+			@url = data['url']
+		end
+
+		def embed_url
+			"https://bandcamp.com/EmbeddedPlayer/size=large/tracklist=false/artwork=small/track=#@id"
+		end
+
+		def json_data
+			super.merge url:
+		end
+
+		def self.search q, duration
+			nil # TODO
+		end
+	end
+
 	CLASSES = {
 		youtube: YouTube,
 		soundcloud: SoundCloud,
+		bandcamp: BandCamp,
 	}
 
 	def self.find *args, **opts

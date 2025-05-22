@@ -54,12 +54,17 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Restore additional music data
+        id: restore-data
         run: |
           set -e
           curl -fsSL $(curl -fsS -w '%{redirect_url}\n' https://gist.github.com/${{ secrets.GIST_ID }})/raw > data/music.json
+          bundle exec rake hash_data
 
       - name: Build
-        run: bundle exec rake
+        id: build
+        run: |
+          bundle exec rake
+          bundle exec rake hash_data
         env:
           BUNDLE_WITHOUT: development:optional
           CHARWASP_SITE_URL: ${{ steps.pages.outputs.base_url }}
@@ -69,6 +74,7 @@ jobs:
           CHARWASP_GITHUB_REPO_URL: https://github.com/${{ github.repository }}
 
       - name: Update additional music data
+        if: steps.restore-data.outputs.data-hash != steps.build.outputs.data-hash
         uses: exuanbo/actions-deploy-gist@v1
         with:
           token: ${{ secrets.GIST_TOKEN }}
