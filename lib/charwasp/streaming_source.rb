@@ -30,12 +30,21 @@ class CharWasP::StreamingSource
 	class YouTube < Basic
 		@uri = URI "https://#{ENV['INVIDIOUS_HOST']}/api/v1/search" if ENV['INVIDIOUS_HOST']
 
+		def initialize data
+			super
+			@time = data['time']
+		end
+
 		def url
-			"https://youtu.be/#@id"
+			"https://youtu.be/#@id" + (@time ? "?t=#@time" : '')
 		end
 
 		def embed_url
-			"https://youtube.com/embed/#@id?autoplay=0"
+			"https://youtube.com/embed/#@id?autoplay=0" + (@time ? "&start=#@time" : '')
+		end
+
+		def json_data
+			@time ? super.merge(time: @time) : super
 		end
 
 		def self.search q, duration
