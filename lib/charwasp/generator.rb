@@ -20,16 +20,24 @@ class CharWasP::Generator
 	def generate_public
 		info 'Generating hardcoded pages'
 		FileUtils.rm_r 'dist' if Dir.exist? 'dist'
-		FileUtils.cp_r 'public', 'dist'
-		Dir.glob 'dist/**/*' do |path|
+		Dir.glob 'public/**/*' do |path|
+			next if path.include? '/.'
+			target = path.sub /^public/, 'dist'
+			if Dir.exist? path
+				FileUtils.mkdir_p target
+				next
+			end
+			FileUtils.mkdir_p File.dirname target
 			if path.end_with? '.js'
-				File.write path, min_js(File.read path)
+				File.write target, min_js(File.read path)
 			elsif path.end_with? '.css'
-				File.write path, min_css(File.read path)
+				File.write target, min_css(File.read path)
 			elsif path.end_with? '.html'
-				File.write path, min_html(File.read path)
+				File.write target, min_html(File.read path)
 			elsif path.end_with? '.svg'
-				File.write path, min_svg(File.read path)
+				File.write target, min_svg(File.read path)
+			else
+				FileUtils.cp path, target
 			end
 		end
 	end

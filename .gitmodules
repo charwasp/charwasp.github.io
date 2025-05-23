@@ -1,0 +1,4 @@
+[submodule "public/doc/chart-object"]
+	path = public/doc/chart-object
+	url = https://github.com/charwasp/chart-object.git
+	branch = doc
