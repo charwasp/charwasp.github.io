@@ -9,6 +9,7 @@ class CharWasP::Generator
 	def generate
 		generate_public
 		generate_signature
+		generate_info
 		generate_music
 		generate_news
 		generate_music_details
@@ -44,6 +45,12 @@ class CharWasP::Generator
 
 	def generate_signature
 		File.write 'dist/master.zip.sig', CharWasP.assets['master.zip'][:md5]
+	end
+
+	def generate_info
+		info 'Generating info page'
+		FileUtils.mkdir_p 'dist/info'
+		write_html 'info', 'info/index.html'
 	end
 
 	def generate_music
@@ -106,12 +113,12 @@ class CharWasP::Generator
 	end
 
 	def write_plain template_path, path, **payload
-		content = template template_path, base: base(path), **payload
+		content = template template_path, base: base(path), path:, **payload
 		write path, content
 	end
 
 	def write_html template_path, path, **payload
-		content = min_html template template_path, base: base(path), **payload
+		content = min_html template template_path, base: base(path), path:, **payload
 		write path, content
 	end
 

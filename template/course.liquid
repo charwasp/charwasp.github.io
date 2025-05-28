@@ -1,31 +1,18 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="shortcut icon" href="{{ base }}/favicon.svg" type="image/svg+xml">
-
-		<title>Courses</title>
-
-		<link rel="stylesheet" href="{{ base }}/stylesheet/style.css">
+		{% assign title = "Courses" %}
+		{% include head %}
 		<link rel="stylesheet" href="{{ base }}/stylesheet/main-table.css">
-		{% for stylesheet in stylesheets %}
-			<style>
-				{{ stylesheet }}
-			</style>
-		{% endfor %}
-		{% for script in scripts %}
-			<script>
-				(() => { {{ script }} })();
-			</script>
-		{% endfor %}
 	</head>
 
 	<body>
-		<ul class="breadcrumb">
-			<li><a href="{{ base }}/info/">Info</a></li>
-			<li><a href="{{ base }}/info/course.html">Courses</a></li>
-		</ul>
+		<nav class="breadcrumb">
+			<ul>
+				<li><a href="{{ base }}/info/">Info</a></li>
+				<li><a href="{{ base }}/info/course.html">Courses</a></li>
+			</ul>
+		</nav>
 
 		<table id="main-table">
 			<colgroup>

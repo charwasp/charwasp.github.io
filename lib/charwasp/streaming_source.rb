@@ -130,10 +130,21 @@ class CharWasP::StreamingSource
 		end
 	end
 
+	class Spotify < Basic
+		def embed_url
+			"https://open.spotify.com/embed/track/#{id}"
+		end
+
+		def self.search q, duration
+			nil # TODO
+		end
+	end
+
 	CLASSES = {
 		youtube: YouTube,
 		soundcloud: SoundCloud,
 		bandcamp: BandCamp,
+		spotify: Spotify
 	}
 
 	def self.find *args, **opts

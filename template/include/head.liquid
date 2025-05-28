@@ -1,0 +1,30 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="{{ base }}/favicon.svg" type="image/svg+xml">
+
+<title>{{ title | escape }} | CharWasP</title>
+<meta property="og:title" content="{{ title | escape }}" />
+<meta property="og:type" content="{{ og_type | default: "website" }}" />
+<meta property="og:url" content="{{ site_url }}/{{ path }}" />
+{% assign default_image = site_url | append: "/banner.svg" %}
+<meta property="og:image" content="{{ og_image | default: default_image }}" />
+{% if description %}
+	<meta property="og:description" content="{{ description | escape }}" />
+	<meta name="description" content="{{ description | escape }}" />
+{% endif %}
+<meta name="theme-color" content="#ff8615" />
+<meta name="color-scheme" content="only light" />
+<meta name="robots" content="none,noarchive,nosnippet,noimageindex" />
+<meta name="application-name" content="CharWasP" />
+
+<link rel="stylesheet" href="{{ base }}/stylesheet/style.css">
+{% for stylesheet in stylesheets %}
+	<style>
+		{{ stylesheet }}
+	</style>
+{% endfor %}
+{% for script in scripts %}
+	<script>
+		(() => { {{ script }} })();
+	</script>
+{% endfor %}

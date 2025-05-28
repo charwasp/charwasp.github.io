@@ -1,22 +1,19 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="shortcut icon" href="{{ base }}/favicon.svg" type="image/svg+xml">
-
-		<title>{{ course.full_name | escape }}</title>
-
-		<link rel="stylesheet" href="{{ base }}/stylesheet/style.css">
+		{% assign title = course.full_name %}
+		{% include head %}
 		<link rel="stylesheet" href="{{ base }}/stylesheet/course-details.css">
 	</head>
 
 	<body>
-		<ul class="breadcrumb">
-			<li><a href="{{ base }}/info/">Info</a></li>
-			<li><a href="{{ base }}/info/course.html">Courses</a></li>
-			<li><a href="{{ base }}/info/course/{{ course.id }}.html">{{ course.full_name | escape }}</a></li>
-		</ul>
+		<nav class="breadcrumb">
+			<ul>
+				<li><a href="{{ base }}/info/">Info</a></li>
+				<li><a href="{{ base }}/info/course.html">Courses</a></li>
+				<li><a href="{{ base }}/info/course/{{ course.id }}.html">{{ course.full_name | escape }}</a></li>
+			</ul>
+		</nav>
 
 		<h1 id="title">
 			{{- course.sub_name | escape }}

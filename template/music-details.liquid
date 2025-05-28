@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="shortcut icon" href="{{ base }}/favicon.svg" type="image/svg+xml">
-
-		<title>{{ music.name | escape }}{% if music.chaos %} CHAOS{% endif %}</title>
-
+		{% capture title %}{{ music.name }}{% if music.chaos %} CHAOS{% endif %}{% endcapture %}
+		{% include head %}
+		<meta property="og:audio" content="https://corsproxy.io/?url={{ music.bgm }}">
 		<link rel="stylesheet" href="{{ base }}/stylesheet/style.css">
 		<link rel="stylesheet" href="{{ base }}/stylesheet/music-details.css">
 		<script src="{{ base }}/js/music-details.js" type="module"></script>
 	</head>
 
 	<body>
-		<ul class="breadcrumb">
-			<li><a href="{{ base }}/info/">Info</a></li>
-			<li><a href="{{ base }}/info/music.html">Music</a></li>
-			<li><a href="{{ base }}/info/music/{{ music.id }}.html">{{ music.name | escape }}</a></li>
-		</ul>
+		<nav class="breadcrumb">
+			<ul>
+				<li><a href="{{ base }}/info/">Info</a></li>
+				<li><a href="{{ base }}/info/music.html">Music</a></li>
+				<li><a href="{{ base }}/info/music/{{ music.id }}.html">{{ music.name | escape }}</a></li>
+			</ul>
+		</nav>
 
 		<h1 id="title"{% if music.chaos %} class="chaos"{% endif %}>{{ music.name | escape }}</h1>
 
@@ -133,6 +132,7 @@
 					scrolling="no"
 					allowfullscreen
 					src="{{ music.streaming_source.embed_url }}"
+					allow="autoplay; encrypted-media; picture-in-picture"
 				></iframe>
 			</div>
 			<div class="streaming-source-notice">
