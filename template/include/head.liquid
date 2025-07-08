@@ -8,6 +8,7 @@
 <meta property="og:url" content="{{ site_url }}/{{ path }}" />
 {% assign default_image = site_url | append: "/banner.svg" %}
 <meta property="og:image" content="{{ og_image | default: default_image }}" />
+<meta property="og:image:type" content="{{ og_image_type | default: "image/svg+xml" }}" />
 {% if description %}
 	<meta property="og:description" content="{{ description | escape }}" />
 	<meta name="description" content="{{ description | escape }}" />

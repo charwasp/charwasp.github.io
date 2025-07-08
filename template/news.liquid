@@ -25,11 +25,15 @@
 					<ul class="news-list">
 						{% for item_item in item %}
 							<li class="news-item">
-								{%- if item_item.id -%}
-									<a href="{{ base }}/info/music/{{ item_item.id }}.html" class="music{% if item_item.chaos %} chaos{% endif %}">
-										{{- item_item.name | escape -}}
+								{%- if item_item[0].id -%}
+									<a href="{{ base }}/info/music/{{ item_item[0].id }}.html" class="music{% if item_item[0].chaos %} chaos{% endif %}">
+										{{- item_item[0].name | escape -}}
 									</a>
-									{%- if item_item.chaos %} CHAOS{% endif -%}
+									{%- if item_item[1].difficulty_id %}
+										<a href="{{ base }}/viewer/?id={{ item_item[0].id }}&chart={{ item_item[1].difficulty_id }}" target="_blank" class="difficulty {{ item_item[1].difficulty | replace: "_", "-" }}">
+											{{- item_item[1].difficulty | replace: "_plus", "+" -}}
+										</a>
+									{% endif -%}
 								{%- else -%}
 									<span class="plain">{{ item_item | escape }}</span>
 								{%- endif -%}

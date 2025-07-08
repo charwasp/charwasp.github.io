@@ -37,6 +37,37 @@
 			}
 			text-decoration: none;
 		}
+		.difficulty {
+			text-transform: uppercase;
+			text-decoration: none;
+			&.easy {
+				color: #006ee9;
+			}
+			&.normal {
+				color: #e96e00;
+			}
+			&.hard {
+				color: #e9005d;
+			}
+			&.extra {
+				color: #ad1dba;
+			}
+			&.extra-plus {
+				background: linear-gradient(to top, #547eaf, #804eb4);
+				-webkit-background-clip: text;
+				background-clip: text;
+				-webkit-text-fill-color: transparent;
+			}
+			&.chaos {
+				color: #1f2022;
+			}
+			&.chaos-plus {
+				background: linear-gradient(to top, #162138, #082358);
+				-webkit-background-clip: text;
+				background-clip: text;
+				-webkit-text-fill-color: transparent;
+			}
+		}
 	}
 }
 

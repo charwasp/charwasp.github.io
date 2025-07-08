@@ -3,7 +3,8 @@
 	<head>
 		{% capture title %}{{ music.name }}{% if music.chaos %} CHAOS{% endif %}{% endcapture %}
 		{% include head %}
-		<meta property="og:audio" content="https://corsproxy.io/?url={{ music.bgm }}">
+		<meta property="og:audio" content="https://corsproxy.io/?url={{ music.bgm }}" />
+		<meta property="og:audio:type" content="audio/ogg" />
 		<link rel="stylesheet" href="{{ base }}/stylesheet/style.css">
 		<link rel="stylesheet" href="{{ base }}/stylesheet/music-details.css">
 		<script src="{{ base }}/js/music-details.js" type="module"></script>

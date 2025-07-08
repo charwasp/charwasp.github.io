@@ -220,24 +220,24 @@ class CharWasP::Database
 		end
 	end
 
-	def find_music name
-		if name.is_a? Integer
-			@db.execute 'SELECT * FROM music WHERE id = ?', [name] do |row|
-				row.transform_keys! &:to_sym
-				return CharWasP::MusicBasic.new row
-			end
-			return
+	def find_music id
+		@db.execute 'SELECT * FROM music WHERE id = ?', [id] do |row|
+			row.transform_keys! &:to_sym
+			return CharWasP::MusicBasic.new row
 		end
+	end
 
-		if name_without_chaos = name[/(.+) CHAOS/, 1]
-			name = name_without_chaos
-			chaos = 1
-		else
-			chaos = 0
-		end
+	def find_music_and_possibly_chart string
+		_, name, _, diff_name = string.match(/^(.+?)( (EASY|NORMAL|HARD|EXTRA\+?|CHAOS\+?))?$/).to_a
+		chaos = diff_name&.include?('CHAOS') ? 1 : 0
+		diff_id = {
+			'EASY' => 0, 'NORMAL' => 1, 'HARD' => 2,
+			'EXTRA' => 3, 'EXTRA+' => 4, 'CHAOS' => 0, 'CHAOS+' => 1
+		}[diff_name]
 		@db.execute 'SELECT * FROM music WHERE name = ? AND chaos = ?', [name, chaos] do |row|
 			row.transform_keys! &:to_sym
-			return CharWasP::Music.new row
+			music = CharWasP::Music.new row
+			return [music, music.charts.find { _1.difficulty_id == diff_id }]
 		end
 		nil
 	end
