@@ -33,7 +33,7 @@
 										<a href="{{ base }}/viewer/?id={{ item_item[0].id }}&chart={{ item_item[1].difficulty_id }}" target="_blank" class="difficulty {{ item_item[1].difficulty | replace: "_", "-" }}">
 											{{- item_item[1].difficulty | replace: "_plus", "+" -}}
 										</a>
-									{% endif -%}
+									{%- endif -%}
 								{%- else -%}
 									<span class="plain">{{ item_item | escape }}</span>
 								{%- endif -%}

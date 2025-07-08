@@ -8,22 +8,26 @@
 			<item>
 				<title>{{ news.title | escape }}</title>
 				<description><![CDATA[
-					{%- for item in news.items -%}
+					{% for item in news.items %}
 						<ul>
-							{%- for item_item in item -%}
+							{% for item_item in item %}
 								<li>
-									{%- if item_item.id -%}
-										<a href="{{ site_url }}/info/music/{{ item_item.id }}.html">
-											{{- item_item.name | escape -}}
+									{%- if item_item[0].id -%}
+										<a href="{{ base }}/info/music/{{ item_item[0].id }}.html">
+											{{- item_item[0].name | escape -}}
 										</a>
-										{%- if item_item.chaos %} CHAOS{% endif -%}
+										{%- if item_item[1].difficulty_id %}
+											<a href="{{ base }}/viewer/?id={{ item_item[0].id }}&chart={{ item_item[1].difficulty_id }}">
+												{{- item_item[1].difficulty | replace: "_plus", "+" | upcase -}}
+											</a>
+										{%- endif -%}
 									{%- else -%}
-										{{ item_item | escape }}
+										{{- item_item | escape -}}
 									{%- endif -%}
 								</li>
-							{%- endfor -%}
+							{% endfor %}
 						</ul>
-					{%- endfor -%}
+					{% endfor %}
 				]]></description>
 				<pubDate>{{ news.datetime | date: "%a, %d %b %Y %H:%M:%S %z" }}</pubDate>
 			</item>
