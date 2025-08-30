@@ -149,7 +149,12 @@ class CharWasP::StreamingSource
 
 	def self.find *args, **opts
 		CLASSES.each do |type, klass|
-			source = klass.search *args, **opts
+			begin
+				source = klass.search *args, **opts
+			rescue => e
+				warn "Error searching #{type}; Full error:"
+				$stderr.puts e.full_message
+			end
 			return source if source
 		end
 		nil
