@@ -5,7 +5,7 @@ on:
   push:
     branches: [master]
   schedule:
-    - cron: '2 * * * *' # every hour
+    - cron: '45 * * * *' # every hour
 
 jobs:
   check-updates:
