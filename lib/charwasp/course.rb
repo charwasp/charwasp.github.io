@@ -9,7 +9,8 @@ class CharWasP::Course < Liquid::Drop
 		@charts = (1..4).map { CharWasP.db.find_chart row[:"music#{_1}"] }
 		@reward = row[:point]
 		@gauge = row[:gauge_level]
-		@level = @id / 10000 % 100 - 10
+		@level = row[:name_en][/\d+/].to_i
+		@level += 1 if row[:name_en].end_with? ?+
 	end
 
 	class Version < Liquid::Drop

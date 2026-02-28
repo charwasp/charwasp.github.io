@@ -44,7 +44,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         id: setup-ruby
         with:
-          ruby-version: '3.2' # minify_html=0.15.0 requires < 3.3; see Gemfile
+          ruby-version: '3.3'
           bundler-cache: true
         env:
           BUNDLE_WITHOUT: development:optional

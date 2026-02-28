@@ -4,7 +4,7 @@ gem 'rake'
 gem 'rubyzip'
 gem 'sqlite3'
 gem 'liquid'
-gem 'minify_html', '= 0.15.0' # https://github.com/wilsonzlin/minify-html/issues/236
+gem 'minify_html'
 gem 'base64'
 gem 'wahwah'
 
