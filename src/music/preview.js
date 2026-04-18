@@ -3,7 +3,7 @@ const audioBuffers = {}
 const playing = {element: null, url: null, source: null, startTime: 0, duration: 0, status: 'stopped'};
 
 function cors(url) {
-	return `https://corsproxy.io/?url=${url}`;
+	return `https://api.cors.lol/?url=${url}`;
 }
 
 async function fetchWithProgress(url, onProgress) {

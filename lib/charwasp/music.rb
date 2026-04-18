@@ -69,9 +69,9 @@ class CharWasP::Music < CharWasP::MusicBasic
 		io.write @artist, ?\0
 		io.write [@categories].pack 'C'
 		io.write [2].pack 'C' # music type: URL
-		io.write 'https://corsproxy.io/?url=', @bgm, ?\0
+		io.write 'https://api.cors.lol/?url=', @bgm, ?\0
 		io.write [2].pack 'C' # preview type: URL
-		io.write 'https://corsproxy.io/?url=', @preview, ?\0
+		io.write 'https://api.cors.lol/?url=', @preview, ?\0
 		io.write [0].pack 'C' # cover type: none
 		io.write [@keywords.size].pack 'C'
 		@keywords.each { io.write _1, ?\0 }

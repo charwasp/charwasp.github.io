@@ -31,7 +31,7 @@ function sanitizeFilename(filename) {
 }
 
 function cors(url) {
-	return `https://corsproxy.io/?url=${url}`;
+	return `https://api.cors.lol/?url=${url}`;
 }
 
 async function fetchWithProgress(url, onProgress) {
