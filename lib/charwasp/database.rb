@@ -178,14 +178,15 @@ class CharWasP::Database
 				next
 			end
 			path = File.join 'download', row['file']
-			if !File.exist?(path) || Digest::MD5.file(path).hexdigest != row['hash']
-				info "Downloading music #{id}..."
-				FileUtils.mkdir_p File.dirname path
-				File.binwrite path, Net::HTTP.get(URI File.join CharWasP.package_url, row['file'])
-			end
-			File.open path, 'rb' do |file|
-				@durations[id] = WahWah.open(file).duration
-			end
+			#if !File.exist?(path) || Digest::MD5.file(path).hexdigest != row['hash']
+			#	info "Downloading music #{id}..."
+			#	FileUtils.mkdir_p File.dirname path
+			#	File.binwrite path, Net::HTTP.get(URI File.join CharWasP.package_url, row['file'])
+			#end
+			#File.open path, 'rb' do |file|
+			#	@durations[id] = WahWah.open(file).duration
+			#end
+			@durations[id] = 0.0 # Old download link is invalidated now, so use stub duration for now
 			(data[id] ||= {})[:duration] = @durations[id]
 		end
 	end

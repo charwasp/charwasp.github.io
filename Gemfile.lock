@@ -3,19 +3,21 @@ GEM
   specs:
     base64 (0.3.0)
     bigdecimal (4.1.2)
-    liquid (5.12.0)
+    liquid (5.13.0)
       bigdecimal
       strscan (>= 3.1.1)
     logger (1.7.0)
     minify_html (0.18.1-aarch64-linux)
     minify_html (0.18.1-arm64-darwin)
+    minify_html (0.18.1-x64-mingw-ucrt)
     minify_html (0.18.1-x86_64-darwin)
     minify_html (0.18.1-x86_64-linux)
     rake (13.4.2)
-    rubyzip (3.3.1)
+    rubyzip (3.4.1)
     sqlite3 (2.9.5-aarch64-linux-gnu)
     sqlite3 (2.9.5-aarch64-linux-musl)
     sqlite3 (2.9.5-arm64-darwin)
+    sqlite3 (2.9.5-x64-mingw-ucrt)
     sqlite3 (2.9.5-x86_64-darwin)
     sqlite3 (2.9.5-x86_64-linux-gnu)
     sqlite3 (2.9.5-x86_64-linux-musl)
@@ -29,6 +31,7 @@ PLATFORMS
   aarch64-linux-gnu
   aarch64-linux-musl
   arm64-darwin
+  x64-mingw-ucrt
   x86_64-darwin
   x86_64-linux-gnu
   x86_64-linux-musl
@@ -45,5 +48,30 @@ DEPENDENCIES
   wahwah
   webrick
 
+CHECKSUMS
+  base64 (0.3.0) sha256=27337aeabad6ffae05c265c450490628ef3ebd4b67be58257393227588f5a97b
+  bigdecimal (4.1.2) sha256=53d217666027eab4280346fba98e7d5b66baaae1b9c3c1c0ffe89d48188a3fbd
+  bundler (4.0.17) sha256=214e21431b5665dd2f99df8a5511c6b151d7a72e8015c8b38f8b775b61cbb6c1
+  liquid (5.13.0) sha256=09d594fd96b98e19a8fd5c32aadcc6950df429b69f48c2f774c0db0ce272bf19
+  logger (1.7.0) sha256=196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203
+  minify_html (0.18.1-aarch64-linux) sha256=a434e3a9327b9360ddcfb94e5d49eb2a7af6b09a78d7d43b4d5d9a760ad87353
+  minify_html (0.18.1-arm64-darwin) sha256=ddf6ac005f0bee291097390a87bb239dfc14912e8cf59496f33e878073c40cc7
+  minify_html (0.18.1-x64-mingw-ucrt) sha256=492813dd9927a19abc2ffe140d1ab2614469ab881754d5c68ca76e671887e6bd
+  minify_html (0.18.1-x86_64-darwin) sha256=0ae3b905521fd86766a54ad4371b9803466d1b071b1f7cdd68d49f96b07c6cd8
+  minify_html (0.18.1-x86_64-linux) sha256=ad0b00d9effc33ac79d4f4801866ece34f48408abed1d1a0b3cf9f5afd49117f
+  rake (13.4.2) sha256=cb825b2bd5f1f8e91ca37bddb4b9aaf345551b4731da62949be002fa89283701
+  rubyzip (3.4.1) sha256=0a79e745b5c25872ebd148457df5665da8530ed8626c993b01457128f173ca02
+  sqlite3 (2.9.5-aarch64-linux-gnu) sha256=78075b6337d3d182c6d2b4691049ed45cd220826160c9ea18946bf6a1de200dc
+  sqlite3 (2.9.5-aarch64-linux-musl) sha256=18c801185deb4adc01ddb281e8f672a39e3d1729979ca91e39439cd3eac0402d
+  sqlite3 (2.9.5-arm64-darwin) sha256=d0cf444a70fc9395d513cfbcc1e6719e224aa645314e3824cb0474c721425aa2
+  sqlite3 (2.9.5-x64-mingw-ucrt) sha256=b00d5697994ee8589b6096694a2130aa5567db64373baca55ea98c9bf958f46a
+  sqlite3 (2.9.5-x86_64-darwin) sha256=8e9caae38bd7ebb29cbeee3e7ab1d12dc2327d9a1b92c7fcf0dda05589627a81
+  sqlite3 (2.9.5-x86_64-linux-gnu) sha256=233dbcb6714148dd23bc5aeb33e8efd6eac974969564ddd5794c23d5f52b231e
+  sqlite3 (2.9.5-x86_64-linux-musl) sha256=e7d3a7474e8af0f96150c21abc203fbab5437206bfcdf11deab7741c0ca516f2
+  strscan (3.1.8) sha256=aae2db611a225559f21ffbb71765c9a4e60fd262534a9ea84f4f11c7f32f679e
+  tqdm (0.4.1) sha256=cad4527eb660489f84e3c838fccbe0d4ab2e91527adf9df9a68b9e839ef58b5b
+  wahwah (1.6.7) sha256=3272c847c19ac7d047ba2521734429bc99f03dff604c58a57b7e687d8dc2011d
+  webrick (1.9.2) sha256=beb4a15fc474defed24a3bda4ffd88a490d517c9e4e6118c3edce59e45864131
+
 BUNDLED WITH
-  4.0.7
+  4.0.17
