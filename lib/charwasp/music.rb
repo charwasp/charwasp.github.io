@@ -10,14 +10,14 @@ class CharWasP::MusicBasic < Liquid::Drop
 
 	def initialize row
 		@id = row[:id]
-		@preview_relative = "Preview/preview_#@id.ogg"
-		@preview = File.join CharWasP.package_url, @preview_relative
 		@preview_hash = row[:preview_hash]
+		@preview_relative = "Preview/#{self.class.md5_to_download_name @preview_hash}"
+		@preview = File.join CharWasP.package_url, @preview_relative
 		@name = row[:name]
 		@artist = row[:artist]
-		@bgm_relative = row[:file]
-		@bgm = File.join CharWasP.package_url, @bgm_relative
 		@bgm_hash = row[:hash]
+		@bgm_relative = "Sound/#{self.class.md5_to_download_name @bgm_hash}"
+		@bgm = File.join CharWasP.package_url, @bgm_relative
 		@chaos = row[:chaos] != 0
 		@charts = (@chaos ? CHAOS_DIFFICULTIES : DIFFICULTIES).map.with_index do |difficulty, i|
 			level = row[:"level_#{i+1}"]
@@ -30,6 +30,12 @@ class CharWasP::MusicBasic < Liquid::Drop
 		@inst = @categories & 4 > 0
 		@vocal = @categories & 8 > 0
 		@boost = row[:pickup] != 0
+	end
+
+	def self.md5_to_download_name md5
+		32.times.map do |m|
+			'k9q2m7x4c8v1z5pa'[md5[(13+7*m)%32].to_i(16) ^ (5-5*m)%16]
+		end.join
 	end
 end
 

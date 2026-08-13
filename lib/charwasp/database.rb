@@ -177,16 +177,16 @@ class CharWasP::Database
 				@durations[id] = data[id][:duration]
 				next
 			end
-			path = File.join 'download', row['file']
-			#if !File.exist?(path) || Digest::MD5.file(path).hexdigest != row['hash']
-			#	info "Downloading music #{id}..."
-			#	FileUtils.mkdir_p File.dirname path
-			#	File.binwrite path, Net::HTTP.get(URI File.join CharWasP.package_url, row['file'])
-			#end
-			#File.open path, 'rb' do |file|
-			#	@durations[id] = WahWah.open(file).duration
-			#end
-			@durations[id] = 0.0 # Old download link is invalidated now, so use stub duration for now
+			relative = File.join 'Sound', CharWasP::MusicBasic.md5_to_download_name(row['hash'])
+			path = File.join 'download', relative
+			if !File.exist?(path) || Digest::MD5.file(path).hexdigest != row['hash']
+				info "Downloading music #{id}..."
+				FileUtils.mkdir_p File.dirname path
+				File.binwrite path, Net::HTTP.get(URI File.join CharWasP.package_url, relative)
+			end
+			File.open path, 'rb' do |file|
+				@durations[id] = WahWah.open(file).duration
+			end
 			(data[id] ||= {})[:duration] = @durations[id]
 		end
 	end
